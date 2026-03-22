@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="Skua.WPF.UserControls.CBOClassEquipmentUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vms="clr-namespace:Skua.Core.ViewModels;assembly=Skua.Core"
     d:DataContext="{d:DesignInstance vms:CBOClassEquipmentViewModel}"
-    d:DesignHeight="450"
+    d:DesignHeight="320"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -26,162 +26,86 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
+
+        <!-- Refresh button spans both columns -->
         <Button
             Grid.ColumnSpan="2"
-            Command="{Binding RefreshInventoryCommand}"
-            Content="Refresh Inventory" />
+            Command="{Binding RefreshOutfitsCommand}"
+            Content="Refresh Outfits" />
 
+        <!-- Solo -->
         <GroupBox
             Grid.Row="1"
             Grid.Column="0"
             Margin="0,6,3,0"
-            Header="Solo Class Equipment">
+            Header="Solo Class">
             <StackPanel>
                 <ComboBox
                     DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Helm"
-                    ItemsSource="{Binding Helms}"
-                    SelectedItem="{Binding SelectedSoloHelm}" />
+                    materialDesign:HintAssist.Hint="Outfit"
+                    ItemsSource="{Binding Outfits}"
+                    SelectedItem="{Binding SelectedSoloOutfit}" />
                 <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Armor"
-                    ItemsSource="{Binding Armors}"
-                    SelectedItem="{Binding SelectedSoloArmor}" />
-                <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Cape"
-                    ItemsSource="{Binding Capes}"
-                    SelectedItem="{Binding SelectedSoloCape}" />
-                <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Weapon"
-                    ItemsSource="{Binding Weapons}"
-                    SelectedItem="{Binding SelectedSoloWeapon}" />
-                <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Pet"
-                    ItemsSource="{Binding Pets}"
-                    SelectedItem="{Binding SelectedSoloPet}" />
-                <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Ground Item"
-                    ItemsSource="{Binding GroundItems}"
-                    SelectedItem="{Binding SelectedSoloGroundItem}" />
+                    materialDesign:HintAssist.Hint="Mode"
+                    ItemsSource="{Binding SoloUseModes}"
+                    SelectedItem="{Binding SelectedSoloUseMode}" />
             </StackPanel>
         </GroupBox>
+
+        <!-- Farm -->
         <GroupBox
             Grid.Row="1"
             Grid.Column="1"
             Margin="3,6,0,0"
-            Header="Farm Class Equipment">
+            Header="Farm Class">
             <StackPanel>
                 <ComboBox
                     DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Helm"
-                    ItemsSource="{Binding Helms}"
-                    SelectedItem="{Binding SelectedFarmHelm}" />
+                    materialDesign:HintAssist.Hint="Outfit"
+                    ItemsSource="{Binding Outfits}"
+                    SelectedItem="{Binding SelectedFarmOutfit}" />
                 <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Armor"
-                    ItemsSource="{Binding Armors}"
-                    SelectedItem="{Binding SelectedFarmArmor}" />
-                <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Cape"
-                    ItemsSource="{Binding Capes}"
-                    SelectedItem="{Binding SelectedFarmCape}" />
-                <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Weapon"
-                    ItemsSource="{Binding Weapons}"
-                    SelectedItem="{Binding SelectedFarmWeapon}" />
-                <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Pet"
-                    ItemsSource="{Binding Pets}"
-                    SelectedItem="{Binding SelectedFarmPet}" />
-                <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Ground Item"
-                    ItemsSource="{Binding GroundItems}"
-                    SelectedItem="{Binding SelectedFarmGroundItem}" />
+                    materialDesign:HintAssist.Hint="Mode"
+                    ItemsSource="{Binding FarmUseModes}"
+                    SelectedItem="{Binding SelectedFarmUseMode}" />
             </StackPanel>
         </GroupBox>
 
+        <!-- Dodge -->
         <GroupBox
             Grid.Row="2"
             Grid.Column="0"
             Margin="0,6,3,0"
-            Header="Dodge Class Equipment">
+            Header="Dodge Class">
             <StackPanel>
                 <ComboBox
                     DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Helm"
-                    ItemsSource="{Binding Helms}"
-                    SelectedItem="{Binding SelectedDodgeHelm}" />
+                    materialDesign:HintAssist.Hint="Outfit"
+                    ItemsSource="{Binding Outfits}"
+                    SelectedItem="{Binding SelectedDodgeOutfit}" />
                 <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Armor"
-                    ItemsSource="{Binding Armors}"
-                    SelectedItem="{Binding SelectedDodgeArmor}" />
-                <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Cape"
-                    ItemsSource="{Binding Capes}"
-                    SelectedItem="{Binding SelectedDodgeCape}" />
-                <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Weapon"
-                    ItemsSource="{Binding Weapons}"
-                    SelectedItem="{Binding SelectedDodgeWeapon}" />
-                <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Pet"
-                    ItemsSource="{Binding Pets}"
-                    SelectedItem="{Binding SelectedDodgePet}" />
-                <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Ground Item"
-                    ItemsSource="{Binding GroundItems}"
-                    SelectedItem="{Binding SelectedDodgeGroundItem}" />
+                    materialDesign:HintAssist.Hint="Mode"
+                    ItemsSource="{Binding DodgeUseModes}"
+                    SelectedItem="{Binding SelectedDodgeUseMode}" />
             </StackPanel>
         </GroupBox>
+
+        <!-- Boss -->
         <GroupBox
             Grid.Row="2"
             Grid.Column="1"
             Margin="3,6,0,0"
-            Header="Boss Class Equipment">
+            Header="Boss Class">
             <StackPanel>
                 <ComboBox
                     DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Helm"
-                    ItemsSource="{Binding Helms}"
-                    SelectedItem="{Binding SelectedBossHelm}" />
+                    materialDesign:HintAssist.Hint="Outfit"
+                    ItemsSource="{Binding Outfits}"
+                    SelectedItem="{Binding SelectedBossOutfit}" />
                 <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Armor"
-                    ItemsSource="{Binding Armors}"
-                    SelectedItem="{Binding SelectedBossArmor}" />
-                <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Cape"
-                    ItemsSource="{Binding Capes}"
-                    SelectedItem="{Binding SelectedBossCape}" />
-                <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Weapon"
-                    ItemsSource="{Binding Weapons}"
-                    SelectedItem="{Binding SelectedBossWeapon}" />
-                <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Pet"
-                    ItemsSource="{Binding Pets}"
-                    SelectedItem="{Binding SelectedBossPet}" />
-                <ComboBox
-                    DropDownOpened="ComboBox_DropDownOpened"
-                    materialDesign:HintAssist.Hint="Ground Item"
-                    ItemsSource="{Binding GroundItems}"
-                    SelectedItem="{Binding SelectedBossGroundItem}" />
+                    materialDesign:HintAssist.Hint="Mode"
+                    ItemsSource="{Binding BossUseModes}"
+                    SelectedItem="{Binding SelectedBossUseMode}" />
             </StackPanel>
         </GroupBox>
     </Grid>

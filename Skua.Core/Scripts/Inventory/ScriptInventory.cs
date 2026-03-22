@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Skua.Core.Flash;
 using Skua.Core.Interfaces;
 using Skua.Core.Models;
@@ -72,8 +74,83 @@ public partial class ScriptInventory : IScriptInventory
         dynItem.sName = item.Name;
 
         Flash.CallGameFunction("world.equipUseableItem", dynItem);
-
         Wait.ForItemEquip(item.ID);
+    }
+
+    /// <summary>
+    /// Equips a saved in-game outfit by name.
+    /// Packet format: %xt%zm%equipLoadout%{RoomID}%cmd%{outfitName}%0%
+    /// </summary>
+    public void EquipOutfit(string outfitName)
+    {
+        if (string.IsNullOrWhiteSpace(outfitName))
+            return;
+        Send.Packet($"%xt%zm%equipLoadout%{Map.RoomID}%cmd%{outfitName}%0%");
+    }
+
+    /// <summary>
+    /// Returns all outfit names from the player's in-game Wardrobe, sorted alphabetically.
+    /// </summary>
+    public List<string> GetOutfits()
+    {
+        try
+        {
+            string? json = Flash.Call("getLoadouts");
+            if (string.IsNullOrWhiteSpace(json))
+                return new List<string>();
+
+            var loadouts = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+            return loadouts?.Keys
+                       .OrderBy(k => k, StringComparer.OrdinalIgnoreCase)
+                       .ToList()
+                   ?? new List<string>();
+        }
+        catch
+        {
+            return new List<string>();
+        }
+    }
+
+    /// <summary>
+    /// Reads the class name from a saved outfit without equipping anything.
+    ///
+    /// AQW outfit slot keys (from ItemBase.cs):
+    ///   "ar" = class item
+    ///   "co" = armor/costume
+    ///   "he" = helm
+    ///   "ba" = cape
+    ///   "pe" = pet
+    ///   "Weapon" = weapon
+    ///
+    /// The value is a raw item ID. We look it up in the player's loaded
+    /// inventory to get the class name.
+    /// </summary>
+    public string? GetOutfitClassName(string outfitName)
+    {
+        try
+        {
+            string? json = Flash.Call("getLoadouts");
+            if (string.IsNullOrWhiteSpace(json))
+                return null;
+
+            JObject loadouts = JObject.Parse(json);
+            JToken? outfit = loadouts[outfitName];
+            if (outfit == null)
+                return null;
+
+            // "ar" is the class slot
+            JToken? arToken = outfit["ar"];
+            if (arToken == null || !int.TryParse(arToken.ToString(), out int classItemId))
+                return null;
+
+            // Look up that item ID in the player's inventory
+            InventoryItem? classItem = Items?.Find(i => i.ID == classItemId);
+            return classItem?.Name;
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public bool ToBank(InventoryItem item)

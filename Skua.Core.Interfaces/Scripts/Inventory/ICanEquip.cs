@@ -1,64 +1,40 @@
-﻿using Skua.Core.Models.Items;
+using Skua.Core.Models.Items;
 
 namespace Skua.Core.Interfaces;
 
 /// <summary>
 /// Defines methods for equipping items from a player's inventory by item ID, name, or inventory item instance.
 /// </summary>
-/// <remarks>
-/// Implementations of this interface allow equipping individual items or multiple items at once,
-/// including items that are usable in a specific slot. Methods do nothing if the specified item is not present in the
-/// player's inventory. This interface extends <see cref="ICheckEquipped"/>, enabling both equipping and checking equipped
-/// status.
-/// </remarks>
 public interface ICanEquip : ICheckEquipped
 {
-    /// <summary>
-    /// Equips the item with specified <paramref name="id"/>. This will do nothing if the item is not in the player's inventory.
-    /// </summary>
-    /// <param name="id">ID of the item to equip.</param>
+    /// <summary>Equips the item with the specified ID.</summary>
     void EquipItem(int id);
 
-    /// <summary>
-    /// Equips the item with specified <paramref name="name"/>. This will do nothing if the item is not in the player's inventory.
-    /// </summary>
-    /// <param name="name">Name of the item to equip.</param>
+    /// <summary>Equips the item with the specified name.</summary>
     void EquipItem(string name)
     {
         if (TryGetItem(name, out InventoryItem? item))
             EquipItem(item!.ID);
     }
 
-    /// <summary>
-    /// Equips items that are usable (slot 6) with specified <paramref name="id"/>. This will do nothing if the item is not in the player's inventory.
-    /// </summary>
-    /// <param name="id">ID of the item to equip</param>
+    /// <summary>Equips a usable item (slot 6) by ID.</summary>
     void EquipUsableItem(int id)
     {
         if (TryGetItem(id, out InventoryItem? item))
             EquipUsableItem(item);
     }
 
-    /// <summary>
-    /// Equips items that are usable (slot 6) with specified <paramref name="name"/>. This will do nothing if the item is not in the player's inventory.
-    /// </summary>
-    /// <param name="name">Name of the item to equip</param>
+    /// <summary>Equips a usable item (slot 6) by name.</summary>
     void EquipUsableItem(string name)
     {
         if (TryGetItem(name, out InventoryItem? item))
             EquipUsableItem(item);
     }
 
-    /// <summary>
-    /// Equips items that are usable (slot 6) with specified <paramref name="item"/>. This will do nothing if the item is not in the player's inventory.
-    /// </summary>
-    /// <param name="item">InventoryItem</param>
+    /// <summary>Equips a usable item (slot 6) by InventoryItem instance.</summary>
     void EquipUsableItem(InventoryItem? item);
 
-    /// <summary>
-    /// Equips the items with specified <paramref name="names"/>. This will do nothing if the item is not in the player's inventory.
-    /// </summary>
-    /// <param name="names">Names of the items to equip.</param>
+    /// <summary>Equips multiple items by name.</summary>
     void EquipItems(params string[] names)
     {
         foreach (string t in names)
@@ -68,15 +44,27 @@ public interface ICanEquip : ICheckEquipped
         }
     }
 
-    /// <summary>
-    /// Equips the item with specified <paramref name="ids"/>. This will do nothing if the item is not in the player's inventory.
-    /// </summary>
-    /// <param name="ids">IDs of the items to equip.</param>
+    /// <summary>Equips multiple items by ID.</summary>
     void EquipItems(params int[] ids)
     {
         foreach (int t in ids)
-        {
             EquipItem(t);
-        }
     }
+
+    /// <summary>
+    /// Equips a saved in-game outfit by name using the equipLoadout packet.
+    /// </summary>
+    void EquipOutfit(string outfitName);
+
+    /// <summary>
+    /// Returns the names of all outfits saved in the player's in-game Wardrobe.
+    /// </summary>
+    List<string> GetOutfits();
+
+    /// <summary>
+    /// Reads the class name from a saved outfit without equipping anything.
+    /// Looks at the armor ("ar") slot of the outfit data to get the class name.
+    /// Returns null if the outfit is not found or the player is not logged in.
+    /// </summary>
+    string? GetOutfitClassName(string outfitName);
 }

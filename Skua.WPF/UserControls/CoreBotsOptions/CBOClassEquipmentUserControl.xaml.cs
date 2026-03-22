@@ -17,7 +17,7 @@ public partial class CBOClassEquipmentUserControl : UserControl
     {
         if (DataContext is CBOClassEquipmentViewModel vm)
         {
-            vm.RefreshInventoryCommand.Execute(null);
+            vm.RefreshOutfitsCommand.Execute(null);
         }
     }
 }
