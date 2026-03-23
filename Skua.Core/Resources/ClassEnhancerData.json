@@ -1,0 +1,2102 @@
+{
+  "Alpha Omega": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Solo / PvP": {
+      "class": "Lucky",
+      "weapon": "Smite",
+      "helm": "Vim",
+      "cape": "Avarice"
+    },
+    "Group Damage": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Ultra Darkon Killer": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Vim",
+      "cape": "Avarice"
+    }
+  },
+  "Abyssal Angel": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Mid Game": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Forge",
+      "cape": "Forge"
+    },
+    "Dodge": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Examen",
+      "cape": "Lament"
+    },
+    "High Damage": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Lament"
+    }
+  },
+  "Artifact Hunter": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Solo / PvP": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    }
+  },
+  "Arachnomancer": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Mana Vamp",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Mid Game": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Vim",
+      "cape": "Forge"
+    },
+    "Group Damage": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Solo / Support": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    }
+  },
+  "Arcana Invoker": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Mana Vamp",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Ultra DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Solo": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Examen",
+      "cape": "Vainglory"
+    },
+    "Farming / Full Dodge": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Examen",
+      "cape": "Vainglory"
+    }
+  },
+  "ArchFiend": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Health Vamp",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Group Farming": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Ultras DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Solo Farming": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Archivist of Time": {
+    "Basic": {
+      "class": "Wizard",
+      "weapon": "Wizard Awe Blast",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Standard": {
+      "class": "Wizard",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    },
+    "Cheap Option": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Ravenous = Good": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Examen",
+      "cape": "Vainglory"
+    }
+  },
+  "ArchMage": {
+    "Basic": {
+      "class": "Wizard",
+      "weapon": "Wizard Awe Blast",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Best farming": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    },
+    "Lazy Farming": {
+      "class": "Wizard",
+      "weapon": "Elysium",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    },
+    "\"Trust me bro\"": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    }
+  },
+  "ArchPaladin": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Regular Build": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "Highest DPS": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "Ultra Dage": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Lament"
+    }
+  },
+  "Blaze Binder": {
+    "Basic": {
+      "class": "Wizard",
+      "weapon": "Wizard Awe Blast",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Best farming": {
+      "class": "Wizard",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    },
+    "Lazy Farming": {
+      "class": "Wizard",
+      "weapon": "Elysium",
+      "helm": "Pneuma",
+      "cape": "Avarice"
+    }
+  },
+  "Blood Titan": {
+    "Basic": {
+      "class": "Fighter",
+      "weapon": "Fighter Awe Blast",
+      "helm": "Fighter",
+      "cape": "Fighter"
+    },
+    "Soloing (please don't)": {
+      "class": "Fighter",
+      "weapon": "Praxis",
+      "helm": "Vim",
+      "cape": "Absolution"
+    },
+    "Infinite Health": {
+      "class": "Fighter",
+      "weapon": "Valiance",
+      "helm": "Hearty",
+      "cape": "Absolution"
+    },
+    "Speaker Solo Taunt": {
+      "class": "Fighter",
+      "weapon": "Valiance",
+      "helm": "Hearty",
+      "cape": "Penitence"
+    }
+  },
+  "Chaos Avenger": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Awe Blast",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Solo Tank": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    },
+    "Highest Damage": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Anima",
+      "cape": "Avarice"
+    },
+    "Ultras DPS": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Chaos Shaper": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Mana Vamp",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Farming": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Examen",
+      "cape": "Vainglory"
+    },
+    "DPS / Solo": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Highest DPS (massive mana issues)": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Chaos Slayer": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Ultra / Group DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "Solo DPS / Farming": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Vim",
+      "cape": "Lament"
+    },
+    "Hydra Challenge": {
+      "class": "Lucky",
+      "weapon": "Acheron",
+      "helm": "Vim",
+      "cape": "Penitence /  Lament"
+    }
+  },
+  "Chrono Chaorruptor": {
+    "Base": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Budget Forge": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Vim",
+      "cape": "Lament"
+    },
+    "Solo / Group": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Vim",
+      "cape": "Lament"
+    },
+    "Ultra DPS": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Chrono Commandant": {
+    "Base": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Budget Forge": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Vim",
+      "cape": "Lament"
+    },
+    "Solo / Group": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Vim",
+      "cape": "Lament"
+    },
+    "Ultra DPS": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Forge",
+      "cape": "Lament"
+    }
+  },
+  "Chrono DataKnight": {
+    "Base": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Solo": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Examen",
+      "cape": "Lament"
+    },
+    "Ravenous Mana Sustain": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Examen",
+      "cape": "Vainglory"
+    },
+    "Ravenous Max Damage": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "*PEW PEW~*": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Group DPS": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Max haste without pots": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Vim",
+      "cape": "Lament"
+    },
+    "Best build (felicitous philtre)": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Examen",
+      "cape": "Vainglory"
+    }
+  },
+  "Chronomancer": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Group DPS": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Solo": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Ultras DPS": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Chunin": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Mid Game": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Vim",
+      "cape": "Avarice"
+    },
+    "Max Haste": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    }
+  },
+  "Classic Ninja": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Budget": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Vim",
+      "cape": "Avarice"
+    },
+    "Mid Game": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Vim",
+      "cape": "Avarice"
+    },
+    "Full Forge": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    }
+  },
+  "Cryomancer": {
+    "Basic": {
+      "class": "Wizard",
+      "weapon": "Wizard Spiral Carve",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Mid Game": {
+      "class": "Wizard",
+      "weapon": "Smite",
+      "helm": "Pneuma",
+      "cape": "Lament"
+    },
+    "Sustain": {
+      "class": "Wizard",
+      "weapon": "Elysium",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    },
+    "Full Forge": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Dark Lord": {
+    "Basic": {
+      "class": "Wizard",
+      "weapon": "Wizard Spiral Carve",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Fast Cooldowns": {
+      "class": "Wizard",
+      "weapon": "Elysium",
+      "helm": "Pneuma",
+      "cape": "Avarice"
+    },
+    "Balanced": {
+      "class": "Wizard",
+      "weapon": "Elysium",
+      "helm": "Pneuma",
+      "cape": "Lament"
+    },
+    "Full Crit": {
+      "class": "Wizard",
+      "weapon": "Ravenous",
+      "helm": "Pneuma",
+      "cape": "Lament"
+    }
+  },
+  "Darkblood StormKing": {
+    "Basic": {
+      "class": "Wizard",
+      "weapon": "Wizard Spiral Carve",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Balanced": {
+      "class": "Wizard",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Avarice"
+    },
+    "Big Nuke": {
+      "class": "Wizard",
+      "weapon": "Smite",
+      "helm": "Pneuma",
+      "cape": "Avarice"
+    },
+    "Max Haste (actually insanely good)": {
+      "class": "Wizard",
+      "weapon": "Dauntless",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    }
+  },
+  "Doom Metal Necro": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Mid Game": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Penitence"
+    },
+    "No Dauntless": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Vim",
+      "cape": "Penitence"
+    },
+    "Best DPS": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Forge",
+      "cape": "Penitence"
+    }
+  },
+  "Draco/Dragon/Drakkar Knight": {
+    "Basic": {
+      "class": "Wizard",
+      "weapon": "Wizard Spiral Carve",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Solo DPS": {
+      "class": "Wizard",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Lament"
+    },
+    "Group DPS": {
+      "class": "Wizard",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    },
+    "Ultra DPS": {
+      "class": "Wizard",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Dragon of Time": {
+    "Forgeless (go get forge ffs)": {
+      "class": "Healer",
+      "weapon": "Healer Mana Vamp",
+      "helm": "Healer",
+      "cape": "Healer"
+    },
+    "Budget": {
+      "class": "Wizard",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    },
+    "Full DPS": {
+      "class": "Wizard",
+      "weapon": "Elysium",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    },
+    "Nightmare Carnax": {
+      "class": "Wizard",
+      "weapon": "Elysium",
+      "helm": "Hearty",
+      "cape": "Vainglory"
+    }
+  },
+  "Dragonslayer": {
+    "Early Levels": {
+      "class": "Fighter",
+      "weapon": "Fighter",
+      "helm": "Fighter",
+      "cape": "Fighter"
+    },
+    "Awe Enhancements": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Early Forge (why?)": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Forge",
+      "cape": "Forge"
+    },
+    "Full Forge (WHY???)": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Lament"
+    }
+  },
+  "Dragonslayer General": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Mid Game": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "No Dauntless": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    },
+    "Best DPS": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Lament"
+    }
+  },
+  "Elemental Warrior": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Mid Game": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Vim",
+      "cape": "Lament"
+    },
+    "Full Forge Solo": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Group DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Empyrean Chronomancer": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Group DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Solo": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "Ultras DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Eternal Inversionist": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Mid Game": {
+      "class": "Lucky",
+      "weapon": "Lacerate",
+      "helm": "Forge",
+      "cape": "Avarice"
+    },
+    "Cheap High Haste": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Vim",
+      "cape": "Avarice"
+    },
+    "Best Farming": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    }
+  },
+  "Enforcer": {
+    "Basic": {
+      "class": "Fighter",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Mid Game": {
+      "class": "Fighter",
+      "weapon": "Praxis",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    },
+    "Ultra DPS (why)": {
+      "class": "Fighter",
+      "weapon": "Praxis",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    },
+    "Dauntless (why2)": {
+      "class": "Fighter",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    }
+  },
+  "Frost SpiritReaver": {
+    "Base": {
+      "class": "Wizard",
+      "weapon": "Wizard Spiral Carve",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Farming": {
+      "class": "Wizard",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    },
+    "DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "PvP": {
+      "class": "Wizard",
+      "weapon": "Lacerate",
+      "helm": "Pneuma",
+      "cape": "Penitence"
+    }
+  },
+  "Frostval Barbarian": {
+    "Basic": {
+      "class": "Fighter",
+      "weapon": "Fighter Awe Blast",
+      "helm": "Fighter",
+      "cape": "Fighter"
+    },
+    "Damage...?": {
+      "class": "Fighter",
+      "weapon": "Praxis",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    },
+    "Support": {
+      "class": "Fighter",
+      "weapon": "Valiance",
+      "helm": "Anima",
+      "cape": "Absolution"
+    },
+    "Farming": {
+      "class": "Fighter",
+      "weapon": "Valiance",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    }
+  },
+  "Glacial Berserk": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Mid Game": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "DPS": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    }
+  },
+  "Glaceran Warlord": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Healer DPS": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "DPS": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Penitence"
+    },
+    "Healer / Tank": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Great Thief": {
+    "Base": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Group DPS": {
+      "class": "Lucky",
+      "weapon": "Arcana Concerto",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Ultra DPS": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Solo DPS": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Examen",
+      "cape": "Vainglory"
+    }
+  },
+  "Guardian": {
+    "Base": {
+      "class": "Lucky",
+      "weapon": "Lucky Awe Blast",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Group DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Ultra DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Solo DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Hollowborn Vindicator": {
+    "Basic": {
+      "class": "Wizard",
+      "weapon": "Wizard Spiral Carve",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Super Tank": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Penitence"
+    },
+    "Solo DPS": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Forge",
+      "cape": "Penitence"
+    },
+    "Group DPS": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Forge",
+      "cape": "Penitence"
+    }
+  },
+  "Immortal Dark Caster": {
+    "Basic": {
+      "class": "Wizard",
+      "weapon": "Wizard Spiral Carve",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Mid Game": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Avarice"
+    },
+    "Farming": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Pneuma",
+      "cape": "Avarice"
+    },
+    "Group DPS (Battle Elixir)": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Infinite Legion Dark Caster": {
+    "Basic": {
+      "class": "Wizard",
+      "weapon": "Wizard Spiral Carve",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Class Swap": {
+      "class": "Wizard",
+      "weapon": "Smite",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    },
+    "Farming (Sage potions)": {
+      "class": "Wizard",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Avarice"
+    },
+    "Group DPS (Luck potions)": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Interstellar Knight": {
+    "Basic": {
+      "class": "Wizard",
+      "weapon": "Wizard Awe Blast",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Whale": {
+      "class": "Wizard",
+      "weapon": "Acheron",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    },
+    "Top Damage": {
+      "class": "Wizard",
+      "weapon": "Ravenous",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    },
+    "Infinite Mana": {
+      "class": "Wizard",
+      "weapon": "Elysium",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    }
+  },
+  "King's Echo": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Mid Game": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Examen",
+      "cape": "Lament"
+    },
+    "Solo / Group": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Examen",
+      "cape": "Vainglory"
+    },
+    "SC / FB in group": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Legendary Hero": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Mid Game": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "Best": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "High crit chance": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Anima",
+      "cape": "Lament"
+    }
+  },
+  "Legion DoomKnight": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Solo": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    },
+    "Budget DPS": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Highest DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Legion Paladin": {
+    "Base": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Group DPS": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "Solo DPS": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "Speaker / Darkon DPS": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Forge",
+      "cape": "Lament"
+    }
+  },
+  "Legion Revenant": {
+    "Basic": {
+      "class": "Wizard",
+      "weapon": "Wizard Spiral Carve",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Farming": {
+      "class": "Wizard",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Avarice"
+    },
+    "Ultras (groups of 4)": {
+      "class": "Wizard",
+      "weapon": "Arcana Concerto",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "Group DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Legion SwordMaster Assassin": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Awe Blast",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Budget": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    },
+    "AoE Farming / Group DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous /  Arcana Concerto",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    },
+    "Single Target DPS": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Lich": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Budget DPS": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Examen",
+      "cape": "Lament"
+    },
+    "Full DPS (has some mana issues)": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Recommended Build": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Examen",
+      "cape": "Vainglory"
+    }
+  },
+  "Light Caster": {
+    "Basic": {
+      "class": "Wizard",
+      "weapon": "Wizard Spiral Carve",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Budget DPS": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "Ultra DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Lament"
+    }
+  },
+  "Lord of Order": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Awe Blast",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Highest Heal": {
+      "class": "Healer",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Absolution"
+    },
+    "Meta build": {
+      "class": "Lucky",
+      "weapon": "Arcana Concerto",
+      "helm": "Forge",
+      "cape": "Absolution"
+    },
+    "Infinite Mana (usable in all ultras)": {
+      "class": "Healer",
+      "weapon": "Healer Awe Blast",
+      "helm": "Examen",
+      "cape": "Absolution"
+    }
+  },
+  "Lycan": {
+    "PvP": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    }
+  },
+  "Martial Artist": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Cheap Solo": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Vim",
+      "cape": "Lament"
+    },
+    "Solo": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Vim",
+      "cape": "Lament"
+    },
+    "Ultra DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Master of Moglins": {
+    "Base": {
+      "class": "Wizard",
+      "weapon": "Wizard Spiral Carve",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Farming": {
+      "class": "Wizard",
+      "weapon": "Elysium",
+      "helm": "Pneuma",
+      "cape": "Avarice"
+    },
+    "Healing Support": {
+      "class": "Wizard",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    },
+    "Ultra Support": {
+      "class": "Wizard",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Mecha Jouster": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Budget Solo": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    },
+    "Solo / PvP": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    },
+    "Ultra DPS": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Master Ranger": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Health Vamp",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Mid Game farming": {
+      "class": "Lucky",
+      "weapon": "Lucky Health Vamp",
+      "helm": "Vim",
+      "cape": "Avarice"
+    },
+    "AFK press 2 farming": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    },
+    "Current Best farming": {
+      "class": "Lucky",
+      "weapon": "Elysium",
+      "helm": "Anima",
+      "cape": "Avarice"
+    }
+  },
+  "MindBreaker": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Budget build": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Pneuma",
+      "cape": "Avarice"
+    },
+    "High damage": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Avarice"
+    },
+    "Current Best": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Examen",
+      "cape": "Lament"
+    }
+  },
+  "Naval Commander": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Mid Game": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Vim",
+      "cape": "Lament"
+    },
+    "Solo Farming": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Lament"
+    },
+    "Group DPS (why?)": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Necrotic Chronomancer": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Health Vamp",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Ultras (not recommended)": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "High DPS Farming": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "HP Sustain Farming": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    }
+  },
+  "Ninja": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Solo DPS": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    },
+    "Group DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    },
+    "Ultra Dage": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    }
+  },
+  "Northlands Monk": {
+    "Basic (groups)": {
+      "class": "Wizard",
+      "weapon": "Wizard Spiral Carve",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Full Forge (groups)": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Examen",
+      "cape": "Lament"
+    }
+  },
+  "Paladin": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Regular Build": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "Highest DPS": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "Farming": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Vim",
+      "cape": "Lament"
+    }
+  },
+  "Paladin Chronomancer": {
+    "Basic": {
+      "class": "Healer",
+      "weapon": "Healer Mana Vamp",
+      "helm": "Healer",
+      "cape": "Healer"
+    },
+    "High HP": {
+      "class": "Fighter",
+      "weapon": "Fighter Mana Vamp",
+      "helm": "Hearty",
+      "cape": "Fighter"
+    },
+    "Healer": {
+      "class": "Healer",
+      "weapon": "Healer Mana Vamp",
+      "helm": "Examen",
+      "cape": "Absolution"
+    },
+    "Damage (lol)": {
+      "class": "Healer",
+      "weapon": "Healer Mana Vamp",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    }
+  },
+  "Phantom Chronomancer": {
+    "Basic": {
+      "class": "Wizard",
+      "weapon": "Wizard Spiral Carve",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Budget Build": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Best DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Best Solo": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Examen",
+      "cape": "Vainglory"
+    }
+  },
+  "Psionic MindBreaker": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Budget build": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Pneuma",
+      "cape": "Avarice"
+    },
+    "High damage": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Avarice"
+    },
+    "Current Best": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Examen",
+      "cape": "Lament"
+    }
+  },
+  "Quantum Chronomancer": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Health Vamp",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Group DPS": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "Recommended Ultras": {
+      "class": "Lucky",
+      "weapon": "Smite",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "Risky / Solo DPS": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Forge",
+      "cape": "Lament"
+    }
+  },
+  "Royal BattleMage": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Highest Damage": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Anima",
+      "cape": "Lament"
+    },
+    "\"Trust me bro\"": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Lament"
+    }
+  },
+  "Scarlet Sorceress": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Highest Damage": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Examen",
+      "cape": "Lament"
+    }
+  },
+  "Sentinel": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Awe Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Mid Game": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    },
+    "Ultras DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    },
+    "Solo DPS": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    }
+  },
+  "ShadowStalker of Time": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Mana Vamp",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "SC in groups": {
+      "class": "Lucky",
+      "weapon": "Smite",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Fast Solo DPS": {
+      "class": "Lucky",
+      "weapon": "Smite",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    },
+    "Solo Farming": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    }
+  },
+  "Shaman": {
+    "Basic": {
+      "class": "Wizard",
+      "weapon": "Wizard Mana Vamp",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Budget Build": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Examen",
+      "cape": "Avarice"
+    },
+    "Best DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "Best Solo": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Examen",
+      "cape": "Vainglory"
+    }
+  },
+  "Soul Cleaver": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Highest Nuke": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "Max Haste": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    },
+    "Full Pot solo": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    }
+  },
+  "Stone Crusher": {
+    "Basic": {
+      "class": "Fighter",
+      "weapon": "Fighter Awe Blast",
+      "helm": "Fighter",
+      "cape": "Fighter"
+    },
+    "Highest Healing": {
+      "class": "Fighter",
+      "weapon": "Valiance",
+      "helm": "Anima",
+      "cape": "Absolution"
+    },
+    "Healing + Damage (very little difference lol)": {
+      "class": "Hybrid",
+      "weapon": "Valiance",
+      "helm": "Anima",
+      "cape": "Absolution"
+    },
+    "Highest Damage (it's garbage lol)": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    }
+  },
+  "SwordMaster": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Mana Vamp",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Mid Game": {
+      "class": "Lucky",
+      "weapon": "Smite",
+      "helm": "Vim",
+      "cape": "Lament"
+    },
+    "Budget": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Vim",
+      "cape": "Lament"
+    },
+    "Best": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Vim",
+      "cape": "Lament"
+    }
+  },
+  "SwordMaster Assassin": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Awe Blast",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Budget": {
+      "class": "Lucky",
+      "weapon": "Lucky Awe Blast",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    },
+    "Farming": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    },
+    "Highest Nuke": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "TimeKeeper": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Awe Blast",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Full Dodge": {
+      "class": "Lucky",
+      "weapon": "Lacerate",
+      "helm": "Vim",
+      "cape": "Lament"
+    },
+    "Max Damage": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "\"Max\" Crit (NOT ENOUGH DODGE)": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Lament"
+    }
+  },
+  "Timeless Chronomancer": {
+    "Base": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Solo Dodge": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Vim",
+      "cape": "Penitence"
+    },
+    "Ultra DPS": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Group DPS": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Timeless Dark Caster": {
+    "Basic": {
+      "class": "Wizard",
+      "weapon": "Wizard Spiral Carve",
+      "helm": "Wizard",
+      "cape": "Wizard"
+    },
+    "Mid Game": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    },
+    "Solo DPS (Sage combo)": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Pneuma",
+      "cape": "Vainglory"
+    },
+    "Group DPS (Fate combo)": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Examen",
+      "cape": "Vainglory"
+    }
+  },
+  "Ultra OmniKnight": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Mana Vamp",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Budget": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Examen",
+      "cape": "Lament"
+    },
+    "Safe DPS": {
+      "class": "Lucky",
+      "weapon": "Elysium",
+      "helm": "Forge",
+      "cape": "Lament"
+    },
+    "Highest DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Examen",
+      "cape": "Vainglory"
+    }
+  },
+  "Verus Doomknight": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Awe Blast",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Budget DPS": {
+      "class": "Lucky",
+      "weapon": "Valiance",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Solo DPS": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Lament"
+    },
+    "Ultra DPS": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Void Highlord": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Awe Blast",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Solo": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Vim",
+      "cape": "Lament"
+    },
+    "Old Build (good for solo)": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    },
+    "Ultras / Groups": {
+      "class": "Lucky",
+      "weapon": "Ravenous",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    }
+  },
+  "Yami no Ronin": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Budget DPS": {
+      "class": "Lucky",
+      "weapon": "Lacerate",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Solo DPS": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Vim",
+      "cape": "Vainglory"
+    },
+    "Ultra DPS": {
+      "class": "Lucky",
+      "weapon": "Dauntless",
+      "helm": "Anima",
+      "cape": "Vainglory"
+    }
+  },
+  "Alpha DOOMMega": {
+    "Basic": {
+      "class": "Lucky",
+      "weapon": "Lucky Spiral Carve",
+      "helm": "Lucky",
+      "cape": "Lucky"
+    },
+    "Solo / PvP": {
+      "class": "Lucky",
+      "weapon": "Smite",
+      "helm": "Vim",
+      "cape": "Avarice"
+    },
+    "Group Damage": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Forge",
+      "cape": "Vainglory"
+    },
+    "Ultra Darkon Killer": {
+      "class": "Lucky",
+      "weapon": "Praxis",
+      "helm": "Vim",
+      "cape": "Avarice"
+    }
+  }
+}

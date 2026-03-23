@@ -17,6 +17,7 @@ public class ManagedWindows
         windowService.RegisterManagedWindow("Game", s.GetRequiredService<GameOptionsViewModel>());
         windowService.RegisterManagedWindow("Application", s.GetRequiredService<ApplicationOptionsViewModel>());
         windowService.RegisterManagedWindow("CoreBots", s.GetRequiredService<CoreBotsViewModel>());
+        windowService.RegisterManagedWindow("Class Enhancer", s.GetRequiredService<ClassEnhancerViewModel>());
         windowService.RegisterManagedWindow("Application Themes", s.GetRequiredService<ApplicationThemesViewModel>());
         windowService.RegisterManagedWindow("HotKeys", s.GetRequiredService<HotKeysViewModel>());
 

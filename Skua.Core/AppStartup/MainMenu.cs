@@ -35,7 +35,8 @@ internal class MainMenu
                 new("Grabber"),
                 new("Junk Items"),
                 new("Stats"),
-                new("Console")
+                new("Console"),
+                new("Class Enhancer")
             }),
             new("Skills"),
             new("Packets", new List<MainMenuItemViewModel>()

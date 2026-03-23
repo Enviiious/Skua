@@ -187,6 +187,7 @@ public static class Services
         services.AddSingleton<CBOClassEquipmentViewModel>();
         services.AddSingleton<CBOClassSelectViewModel>();
         services.AddSingleton<CBOLoadoutViewModel>();
+        services.AddSingleton<ClassEnhancerViewModel>();
 
         return services;
     }
