@@ -45,10 +45,9 @@ Bot.Wiki.GetBySlug("tempest-dracolich")
 Bot.Wiki.GetByTag("monster")
 ```
 
-> For wiki setup assistance, contact **Enviiious** on Discord: **@diversillect**
-
 ![Wiki Browser Demo](./wiki_browser_demo.gif)
 
+> For wiki setup assistance, contact **Enviiious** on Discord: **@diversillect**
 ---
 
 ### Do we store information online?
