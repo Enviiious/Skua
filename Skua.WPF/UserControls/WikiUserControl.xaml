@@ -130,24 +130,14 @@
                 TextWrapping="Wrap"
                 Visibility="{Binding HasPage, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-            <!--  Structured page content (FlowDocument built in code-behind)  -->
+            <!--  Structured page content rendered from wiki HTML  -->
             <Border
                 Grid.Row="2"
                 Background="{DynamicResource MaterialDesignCardBackground}"
                 BorderBrush="{DynamicResource MaterialDesignDivider}"
                 BorderThickness="1"
                 CornerRadius="4">
-                <RichTextBox
-                    x:Name="WikiContent"
-                    Padding="12"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    FontFamily="Segoe UI"
-                    FontSize="13"
-                    Foreground="{DynamicResource MaterialDesignBody}"
-                    IsReadOnly="True"
-                    IsDocumentEnabled="True"
-                    VerticalScrollBarVisibility="Auto" />
+                <WebBrowser x:Name="WikiContent" />
             </Border>
 
             <!--  Footer: URL + open button  -->

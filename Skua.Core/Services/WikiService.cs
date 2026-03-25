@@ -13,6 +13,8 @@ public class WikiService : IWikiService
     public int     PageCount  => _bySlug.Count;
     public string? LoadedPath { get; private set; }
 
+    public event EventHandler? Loaded;
+
     // ── Indexes ───────────────────────────────────────────────────────────
 
     private Dictionary<string, WikiPage>        _bySlug  = new(StringComparer.OrdinalIgnoreCase);
@@ -51,82 +53,106 @@ public class WikiService : IWikiService
 
         try
         {
-            string json = await File.ReadAllTextAsync(path).ConfigureAwait(false);
+            // Run all IO + parsing on a background thread so the UI stays responsive.
+            // Stream the JSON instead of reading 400MB into a string — this halves peak
+            // memory usage and avoids the large LOH allocation.
+            var result = await Task.Run(() => ParseFile(path)).ConfigureAwait(false);
+            if (result == null) return false;
 
-            var raw = JsonConvert.DeserializeObject<Dictionary<string, RawPage>>(json);
-            if (raw == null) return false;
-
-            var bySlug  = new Dictionary<string, WikiPage>(raw.Count, StringComparer.OrdinalIgnoreCase);
-            var byTitle = new Dictionary<string, WikiPage>(raw.Count, StringComparer.OrdinalIgnoreCase);
-            var byTag   = new Dictionary<string, List<WikiPage>>(StringComparer.OrdinalIgnoreCase);
-
-            var allEnhancements = new List<WikiPage>();
-            var allItems        = new List<WikiPage>();
-            var allMonsters     = new List<WikiPage>();
-            var allQuests       = new List<WikiPage>();
-
-            foreach (var (slug, raw_page) in raw)
-            {
-                var page = new WikiPage
-                {
-                    Slug    = slug,
-                    Title   = raw_page.Title   ?? slug,
-                    Url     = raw_page.Url     ?? $"http://aqwwiki.wikidot.com/{slug}",
-                    Tags    = raw_page.Tags    ?? new(),
-                    Text    = raw_page.Text    ?? string.Empty,
-                    Html    = raw_page.Html    ?? string.Empty,
-                    Tables  = raw_page.Tables  ?? new(),
-                    Scraped = raw_page.Scraped ?? string.Empty,
-                };
-
-                bySlug[slug] = page;
-
-                if (!byTitle.ContainsKey(page.Title))
-                    byTitle[page.Title] = page;
-
-                bool isEnh  = false;
-                bool isItem = false;
-                bool isMon  = false;
-                bool isQst  = false;
-
-                foreach (var tag in page.Tags)
-                {
-                    if (!byTag.TryGetValue(tag, out var list))
-                        byTag[tag] = list = new List<WikiPage>();
-                    list.Add(page);
-
-                    if (EnhancementTags.Contains(tag)) isEnh  = true;
-                    if (ItemTags.Contains(tag))         isItem = true;
-                    if (MonsterTags.Contains(tag))      isMon  = true;
-                    if (QuestTags.Contains(tag))        isQst  = true;
-                }
-
-                // Fallback text-based enhancement detection (no tag match)
-                if (!isEnh && IsEnhancement(page)) isEnh = true;
-
-                if (isEnh)  allEnhancements.Add(page);
-                if (isItem) allItems.Add(page);
-                if (isMon)  allMonsters.Add(page);
-                if (isQst)  allQuests.Add(page);
-            }
-
-            _bySlug  = bySlug;
-            _byTitle = byTitle;
-            _byTag   = byTag;
-
-            _allEnhancements = allEnhancements;
-            _allItems        = allItems;
-            _allMonsters     = allMonsters;
-            _allQuests       = allQuests;
-
-            LoadedPath = path;
-            IsLoaded   = true;
+            _bySlug          = result.BySlug;
+            _byTitle         = result.ByTitle;
+            _byTag           = result.ByTag;
+            _allEnhancements = result.Enhancements;
+            _allItems        = result.Items;
+            _allMonsters     = result.Monsters;
+            _allQuests       = result.Quests;
+            LoadedPath       = path;
+            IsLoaded         = true;
+            Loaded?.Invoke(this, EventArgs.Empty);
             return true;
         }
         catch
         {
             return false;
         }
+    }
+
+    private sealed class ParseResult
+    {
+        public Dictionary<string, WikiPage>       BySlug       = new(StringComparer.OrdinalIgnoreCase);
+        public Dictionary<string, WikiPage>       ByTitle      = new(StringComparer.OrdinalIgnoreCase);
+        public Dictionary<string, List<WikiPage>> ByTag        = new(StringComparer.OrdinalIgnoreCase);
+        public List<WikiPage>                     Enhancements = new();
+        public List<WikiPage>                     Items        = new();
+        public List<WikiPage>                     Monsters     = new();
+        public List<WikiPage>                     Quests       = new();
+    }
+
+    private ParseResult? ParseFile(string path)
+    {
+        var r          = new ParseResult();
+        var serializer = new JsonSerializer();
+
+        // 64 KB read buffer + SequentialScan hint for large sequential files
+        using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read,
+                                      bufferSize: 65536, FileOptions.SequentialScan);
+        using var sr = new StreamReader(fs, System.Text.Encoding.UTF8, detectEncodingFromByteOrderMarks: true,
+                                        bufferSize: 65536, leaveOpen: false);
+        using var jr = new JsonTextReader(sr) { CloseInput = false };
+
+        // Expect the root to be an object: { "slug": { page }, ... }
+        if (!jr.Read() || jr.TokenType != JsonToken.StartObject)
+            return null;
+
+        while (jr.Read() && jr.TokenType != JsonToken.EndObject)
+        {
+            if (jr.TokenType != JsonToken.PropertyName) continue;
+            string slug = (string)jr.Value!;
+
+            jr.Read(); // move into the page object
+            var raw = serializer.Deserialize<RawPage>(jr);
+            if (raw == null) continue;
+
+            var page = new WikiPage
+            {
+                Slug   = slug,
+                // The JSON title field is always the slug (e.g. "void-of-nulgath").
+                // Always convert to a readable title via SlugToTitle.
+                Title  = SlugToTitle(!string.IsNullOrWhiteSpace(raw.Title) ? raw.Title : slug),
+                Url    = raw.Url    ?? $"http://aqwwiki.wikidot.com/{slug}",
+                Tags   = raw.Tags   ?? new(),
+                Text   = raw.Text   ?? string.Empty,
+                Html   = raw.Html   ?? string.Empty,
+                Tables = raw.Tables ?? new(),
+            };
+
+            r.BySlug[slug] = page;
+            if (!r.ByTitle.ContainsKey(page.Title))
+                r.ByTitle[page.Title] = page;
+
+            bool isEnh = false, isItem = false, isMon = false, isQst = false;
+
+            foreach (var tag in page.Tags)
+            {
+                if (!r.ByTag.TryGetValue(tag, out var bucket))
+                    r.ByTag[tag] = bucket = new List<WikiPage>();
+                bucket.Add(page);
+
+                if (EnhancementTags.Contains(tag)) isEnh  = true;
+                if (ItemTags.Contains(tag))         isItem = true;
+                if (MonsterTags.Contains(tag))      isMon  = true;
+                if (QuestTags.Contains(tag))        isQst  = true;
+            }
+
+            if (!isEnh && IsEnhancement(page)) isEnh = true;
+
+            if (isEnh)  r.Enhancements.Add(page);
+            if (isItem) r.Items.Add(page);
+            if (isMon)  r.Monsters.Add(page);
+            if (isQst)  r.Quests.Add(page);
+        }
+
+        return r;
     }
 
     // ── Direct Lookup ─────────────────────────────────────────────────────
@@ -373,6 +399,11 @@ public class WikiService : IWikiService
 
     // ── Helpers ───────────────────────────────────────────────────────────
 
+    /// <summary>Convert "diamond-of-nulgath" → "Diamond Of Nulgath" when no title is in the JSON.</summary>
+    private static string SlugToTitle(string slug) =>
+        System.Globalization.CultureInfo.InvariantCulture.TextInfo
+              .ToTitleCase(slug.Replace('-', ' ').Replace('_', ' '));
+
     private static List<string> ExtractBulletPoints(string text)
     {
         var results = new List<string>();
@@ -393,12 +424,12 @@ public class WikiService : IWikiService
 
     private class RawPage
     {
-        [JsonProperty("title")]   public string?             Title   { get; set; }
-        [JsonProperty("url")]     public string?             Url     { get; set; }
-        [JsonProperty("tags")]    public List<string>?       Tags    { get; set; }
-        [JsonProperty("text")]    public string?             Text    { get; set; }
-        [JsonProperty("html")]    public string?             Html    { get; set; }
-        [JsonProperty("tables")]  public List<List<List<string>>>? Tables  { get; set; }
-        [JsonProperty("scraped")] public string?             Scraped { get; set; }
+        [JsonProperty("title")]  public string?                  Title  { get; set; }
+        [JsonProperty("url")]    public string?                  Url    { get; set; }
+        [JsonProperty("tags")]   public List<string>?            Tags   { get; set; }
+        [JsonProperty("text")]   public string?                  Text   { get; set; }
+        [JsonProperty("html")]   public string?                  Html   { get; set; }
+        [JsonProperty("tables")] public List<List<List<string>>>? Tables { get; set; }
+        // "scraped" intentionally omitted — not used anywhere, saves parse time
     }
 }

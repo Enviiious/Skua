@@ -186,8 +186,8 @@ public sealed partial class App : Application
 
         Services.GetRequiredService<IHotKeyService>().Reload();
 
-        // Wiki auto-load disabled — file is 400MB+ and causes startup lag.
-        // Use the "Load Wiki" button in the Wiki Browser window instead.
+        // Load the wiki in the background on startup — never blocks the UI thread
+        Task.Run(() => Services.GetRequiredService<IWikiService>().LoadAsync());
     }
 
     /// <summary>

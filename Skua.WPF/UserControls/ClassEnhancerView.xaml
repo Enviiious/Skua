@@ -90,6 +90,8 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="8"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0"
@@ -101,6 +103,14 @@
                        Margin="0,0,8,0"/>
 
             <Button Grid.Column="1"
+                    Content="↺ Reload"
+                    Command="{Binding ReloadDataCommand}"
+                    Width="80"
+                    Height="36"
+                    ToolTip="Reload ClassEnhancerData.json from %appdata%\Skua\ (drop a new file there to update)"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"/>
+
+            <Button Grid.Column="3"
                     Content="Equip Loadout"
                     Command="{Binding EquipIdealLoadoutCommand}"
                     Width="120"
@@ -108,7 +118,7 @@
                     ToolTip="Find items in inventory/bank that match this build and equip them"
                     Style="{StaticResource MaterialDesignOutlinedButton}"/>
 
-            <Button Grid.Column="3"
+            <Button Grid.Column="5"
                     Content="Enhance"
                     Command="{Binding EnhanceCommand}"
                     Width="100"

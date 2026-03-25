@@ -20,20 +20,35 @@ public partial class CBOLoadoutViewModel : ObservableObject, IManageCBOptions
     public StringBuilder Save(StringBuilder builder)
     {
         builder.AppendLine($"UseOutfitMode: {UseOutfitMode}");
-        ClassSelectViewModel.Save(builder);
-        ClassEquipmentViewModel.Save(builder);
 
-        // In Outfit mode the OutfitEquipPlugin handles gear — force all
-        // per-item EquipChecks off so the script doesn't also try to equip
-        // items by name when switching back from Classic mode.
+        // In Outfit mode, disable per-item equip checks before saving
+        // so ClassSelectViewModel writes False for all four flags.
+        // Restore afterwards so the in-memory UI state is unaffected.
         if (UseOutfitMode)
         {
-            builder.AppendLine("SoloEquipCheck: False");
-            builder.AppendLine("FarmEquipCheck: False");
-            builder.AppendLine("DodgeEquipCheck: False");
-            builder.AppendLine("BossEquipCheck: False");
+            bool solo  = ClassSelectViewModel.UseSoloEquipment;
+            bool farm  = ClassSelectViewModel.UseFarmEquipment;
+            bool dodge = ClassSelectViewModel.UseDodgeEquipment;
+            bool boss  = ClassSelectViewModel.UseBossEquipment;
+
+            ClassSelectViewModel.UseSoloEquipment  = false;
+            ClassSelectViewModel.UseFarmEquipment  = false;
+            ClassSelectViewModel.UseDodgeEquipment = false;
+            ClassSelectViewModel.UseBossEquipment  = false;
+
+            ClassSelectViewModel.Save(builder);
+
+            ClassSelectViewModel.UseSoloEquipment  = solo;
+            ClassSelectViewModel.UseFarmEquipment  = farm;
+            ClassSelectViewModel.UseDodgeEquipment = dodge;
+            ClassSelectViewModel.UseBossEquipment  = boss;
+        }
+        else
+        {
+            ClassSelectViewModel.Save(builder);
         }
 
+        ClassEquipmentViewModel.Save(builder);
         return builder;
     }
 

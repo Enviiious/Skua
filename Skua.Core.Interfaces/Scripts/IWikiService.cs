@@ -14,6 +14,9 @@ public interface IWikiService
     /// <summary>Whether the wiki JSON has been successfully loaded.</summary>
     bool IsLoaded { get; }
 
+    /// <summary>Fired on the thread pool when LoadAsync completes successfully.</summary>
+    event EventHandler? Loaded;
+
     /// <summary>Total number of pages in the loaded wiki.</summary>
     int PageCount { get; }
 

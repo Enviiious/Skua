@@ -10,7 +10,7 @@ public partial class WikiViewModel : ObservableObject, IManagedWindow
 {
     public string Title     => "Wiki Browser";
     public int    Width     => 960;
-    public int    Height    => 600;
+    public int    Height    => 620;
     public bool   CanResize => true;
 
     private readonly IWikiService       _wiki;
@@ -20,6 +20,8 @@ public partial class WikiViewModel : ObservableObject, IManagedWindow
     {
         _wiki       = wiki;
         _dispatcher = dispatcher;
+        // Update status when background auto-load (fired from App startup) completes
+        wiki.Loaded += (_, _) => _dispatcher.Invoke(RefreshStatus);
         RefreshStatus();
     }
 
@@ -27,9 +29,6 @@ public partial class WikiViewModel : ObservableObject, IManagedWindow
     [ObservableProperty] private ObservableCollection<WikiPage> _searchResults = new();
     [ObservableProperty] private string  _statusText   = string.Empty;
     [ObservableProperty] private WikiPage? _selectedPage;
-    [ObservableProperty] private IReadOnlyList<WikiSection> _parsedContent = Array.Empty<WikiSection>();
-
-    // ── Derived display properties ────────────────────────────────────────────
 
     public string PageTitle => SelectedPage?.Title ?? string.Empty;
     public string PageTags  => SelectedPage?.Tags is { Count: > 0 } t
@@ -44,15 +43,23 @@ public partial class WikiViewModel : ObservableObject, IManagedWindow
         OnPropertyChanged(nameof(PageTags));
         OnPropertyChanged(nameof(PageUrl));
         OnPropertyChanged(nameof(HasPage));
-        ParsedContent = value != null ? ParsePage(value) : Array.Empty<WikiSection>();
     }
 
     // ── Navigation ────────────────────────────────────────────────────────────
 
+    /// <summary>Navigate by page title (used by in-app hyperlinks).</summary>
     public void NavigateTo(string title)
     {
         var page = _wiki.GetByTitle(title)
                 ?? _wiki.SearchTitles(title, 1).FirstOrDefault();
+        if (page != null)
+            _dispatcher.Invoke(() => SelectedPage = page);
+    }
+
+    /// <summary>Navigate by slug (used when intercepting wiki URL clicks).</summary>
+    public void NavigateToSlug(string slug)
+    {
+        var page = _wiki.GetBySlug(slug);
         if (page != null)
             _dispatcher.Invoke(() => SelectedPage = page);
     }
@@ -66,10 +73,9 @@ public partial class WikiViewModel : ObservableObject, IManagedWindow
         bool ok = await _wiki.LoadAsync();
         _dispatcher.Invoke(() =>
         {
-            if (!ok)
-                StatusText = "Could not find wiki file at %AppData%\\Skua\\aqwwiki_full.json.";
-            else
-                RefreshStatus();
+            StatusText = ok
+                ? $"{_wiki.PageCount:N0} pages loaded"
+                : "Could not find wiki file at %AppData%\\Skua\\aqwwiki_full.json.";
         });
     }
 
@@ -78,18 +84,35 @@ public partial class WikiViewModel : ObservableObject, IManagedWindow
     {
         if (!_wiki.IsLoaded)
         {
-            StatusText = "Wiki not loaded — click \"Load Wiki\".";
+            StatusText = "Wiki not loaded — loading in background, try again shortly.";
             return;
         }
 
         string q = SearchQuery.Trim();
         if (string.IsNullOrEmpty(q)) return;
 
-        var results = _wiki.Search(q, 100);
-        SearchResults = new(results);
-        StatusText = results.Count == 0
+        // Title-only search, ranked: exact match → starts-with → contains
+        var all = _wiki.SearchTitles(q, 200);
+
+        var exact      = new List<Skua.Core.Models.Wiki.WikiPage>();
+        var startsWith = new List<Skua.Core.Models.Wiki.WikiPage>();
+        var contains   = new List<Skua.Core.Models.Wiki.WikiPage>();
+
+        foreach (var p in all)
+        {
+            if (p.Title.Equals(q, StringComparison.OrdinalIgnoreCase))
+                exact.Add(p);
+            else if (p.Title.StartsWith(q, StringComparison.OrdinalIgnoreCase))
+                startsWith.Add(p);
+            else
+                contains.Add(p);
+        }
+
+        var ranked = exact.Concat(startsWith).Concat(contains).ToList();
+        SearchResults = new(ranked);
+        StatusText = ranked.Count == 0
             ? $"No results for \"{q}\""
-            : $"{results.Count} result{(results.Count == 1 ? "" : "s")} for \"{q}\"";
+            : $"{ranked.Count} result{(ranked.Count == 1 ? "" : "s")} for \"{q}\"";
     }
 
     [RelayCommand]
@@ -100,35 +123,7 @@ public partial class WikiViewModel : ObservableObject, IManagedWindow
             new System.Diagnostics.ProcessStartInfo(PageUrl) { UseShellExecute = true });
     }
 
-    // ── Parsing ───────────────────────────────────────────────────────────────
-
-    private IReadOnlyList<WikiSection> ParsePage(WikiPage page)
-    {
-        var sections = new List<WikiSection>();
-        var lines    = page.Text.Split('\n');
-
-        WikiSection? current = null;
-
-        foreach (var rawLine in lines)
-        {
-            string line = rawLine.TrimEnd();
-            if (string.IsNullOrWhiteSpace(line) || line == "-") continue;
-
-            // Lines ending with ":" are section headers
-            if (line.EndsWith(':') && !line.StartsWith(' ') && line.Length > 1)
-            {
-                current = new WikiSection(line[..^1]);
-                sections.Add(current);
-            }
-            else if (current != null)
-            {
-                bool isLink = _wiki.IsLoaded && _wiki.GetByTitle(line.Trim()) != null;
-                current.Items.Add(new WikiItem(line.TrimStart(), isLink));
-            }
-        }
-
-        return sections;
-    }
+    // ── Helpers ───────────────────────────────────────────────────────────────
 
     private void RefreshStatus()
     {
@@ -136,14 +131,4 @@ public partial class WikiViewModel : ObservableObject, IManagedWindow
             ? $"{_wiki.PageCount:N0} pages loaded"
             : "Wiki not loaded — click \"Load Wiki\".";
     }
-
-    // ── Data types ────────────────────────────────────────────────────────────
-
-    public class WikiSection(string heading)
-    {
-        public string Heading { get; } = heading;
-        public List<WikiItem> Items { get; } = new();
-    }
-
-    public record WikiItem(string Text, bool IsLink);
 }

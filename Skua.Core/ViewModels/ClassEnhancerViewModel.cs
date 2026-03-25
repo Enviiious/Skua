@@ -470,30 +470,52 @@ public class _ClassEnhancer_Temp
 
     // ── Data Loading ─────────────────────────────────────────────────────────
 
+    // ── Reload Command ───────────────────────────────────────────────────────
+
+    [RelayCommand]
+    private void ReloadData()
+    {
+        Classes.Clear();
+        SelectedClass = null;
+        SelectedMode = null;
+        _data = new();
+        LoadData();
+    }
+
     private void LoadData()
     {
         try
         {
-            // Load from embedded resource
-            var asm = Assembly.GetExecutingAssembly();
-            string resourceName = asm.GetManifestResourceNames()
-                .FirstOrDefault(n => n.EndsWith("ClassEnhancerData.json")) ?? string.Empty;
+            string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+            // Priority 1: %appdata%\Skua\ClassEnhancerData.json  (drop-in update file)
+            string dropInPath = Path.Combine(appData, "Skua", "ClassEnhancerData.json");
+
+            // Priority 2: %appdata%\Skua\Scripts\ClassEnhancerData.json  (legacy fallback)
+            string scriptsPath = Path.Combine(appData, "Skua", "Scripts", "ClassEnhancerData.json");
 
             string json;
-            if (!string.IsNullOrEmpty(resourceName))
+
+            if (File.Exists(dropInPath))
             {
-                using var stream = asm.GetManifestResourceStream(resourceName)!;
-                using var reader = new StreamReader(stream);
-                json = reader.ReadToEnd();
+                json = File.ReadAllText(dropInPath);
+            }
+            else if (File.Exists(scriptsPath))
+            {
+                json = File.ReadAllText(scriptsPath);
             }
             else
             {
-                // Fallback: load from Scripts folder
-                string path = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    "Skua", "Scripts", "ClassEnhancerData.json");
-                if (!File.Exists(path)) return;
-                json = File.ReadAllText(path);
+                // Priority 3: embedded resource (built-in defaults)
+                var asm = Assembly.GetExecutingAssembly();
+                string resourceName = asm.GetManifestResourceNames()
+                    .FirstOrDefault(n => n.EndsWith("ClassEnhancerData.json")) ?? string.Empty;
+
+                if (string.IsNullOrEmpty(resourceName)) return;
+
+                using var stream = asm.GetManifestResourceStream(resourceName)!;
+                using var reader = new StreamReader(stream);
+                json = reader.ReadToEnd();
             }
 
             _data = JsonConvert.DeserializeObject<
