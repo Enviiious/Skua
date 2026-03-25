@@ -10,9 +10,50 @@
 
 Skua is the successor to [RBot](https://github.com/rodit/RBot) (originally made by "[rodit](https://github.com/rodit)"), now remade and rebranded by [BrenoHenrike](https://github.com/BrenoHenrike/), with the help of [Lord Exelot](https://github.com/BrenoHenrike/), and a handful of scripters. It is a third-party client made by the people mentioned above. It also has many "features" and quirks. Overall, it will make this glorified flash game on steroids a piece of cake.
 
+---
+
+### What's New (Enviiious)
+
+This fork extends Skua with three major additions built on top of the core codebase.
+
+#### Outfit Changer
+
+A full wardrobe system integrated into CoreBots Options. Allows you to save and switch between complete outfit loadouts (armor, helm, cape, weapon) directly from the CBO panel. Supports both Outfit Mode (save full wardrobe sets) and Classic Mode (per-slot item selection). Loadouts persist across sessions.
+
+#### Plugin Suite *(in progress)*
+
+A suite of plugins that run alongside any bot script to provide bot scheduling (when one bot completes another will begin), and HUD overlays and more.
+
+#### AQW Wiki Query Engine
+
+A fully functional wiki query engine integrated into Skua core and accessible from any script or plugin as `Bot.Wiki`. Powered by a locally stored JSON snapshot of the AQW wiki.
+
+**Available queries:**
+
+```csharp
+Bot.Wiki.IsLoaded                              // check if wiki is ready
+Bot.Wiki.Search("query", limit)                // full-text search
+Bot.Wiki.GetEnhancement("Acheron")             // enhancement page
+Bot.Wiki.GetEnhancementEffects("Acheron")      // special skill bullet points
+Bot.Wiki.FindDropSource("Enchanted Scale")     // monster + map for any item
+Bot.Wiki.GetMonsterLocations("Tempest Dracolich")
+Bot.Wiki.GetMonsterDrops("Tempest Dracolich")
+Bot.Wiki.GetItem("Dragonslayer General")
+Bot.Wiki.GetItemSource("Dragonslayer General")
+Bot.Wiki.GetQuest("DragonSlayer Farming Quest")
+Bot.Wiki.GetBySlug("tempest-dracolich")
+Bot.Wiki.GetByTag("monster")
+```
+
+> For wiki setup assistance, contact **Enviiious** on Discord: **@diversillect**
+
+![Wiki Browser Demo](./wiki_browser_demo.gif)
+
+---
+
 ### Do we store information online?
 
-The *only* things that get recorded are: the auto-generated number **(not your actual game user ID)** to identify you, the number of scripts run (stopped & started), and the start and stop timestamps. This can be completely opted out of when first running a script, or you can edit the text file ***“DataCollectionSettings”*** in your `Documents\Skua > DataCollectionSettings.txt`. If you make it look as shown below, it will send absolutely nothing 👍
+The *only* things that get recorded are: the auto-generated number **(not your actual game user ID)** to identify you, the number of scripts run (stopped & started), and the start and stop timestamps. This can be completely opted out of when first running a script, or you can edit the text file ***"DataCollectionSettings"*** in your `Documents\Skua > DataCollectionSettings.txt`. If you make it look as shown below, it will send absolutely nothing 👍
 
 ```txt
 UserID: null
