@@ -185,6 +185,9 @@ public sealed partial class App : Application
         Services.GetRequiredService<IPluginManager>().Initialize();
 
         Services.GetRequiredService<IHotKeyService>().Reload();
+
+        // Wiki auto-load disabled — file is 400MB+ and causes startup lag.
+        // Use the "Load Wiki" button in the Wiki Browser window instead.
     }
 
     /// <summary>

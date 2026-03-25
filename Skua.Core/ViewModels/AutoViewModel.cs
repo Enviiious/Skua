@@ -48,23 +48,25 @@ public partial class AutoViewModel : BotControlViewModelBase, IDisposable
     }
 
     public IScriptAuto Auto { get; }
+    private List<string>? _playerClassesCache;
     public List<string>? PlayerClasses
     {
         get
         {
-            if (_inventory.Items is null)
-                return null;
+            if (_playerClassesCache != null) return _playerClassesCache;
+            if (_inventory.Items is null) return null;
 
-            List<string> classes = new();
+            var classes = new List<string>();
             foreach (ItemBase item in _inventory.Items)
             {
                 if (item.Category == ItemCategory.Class)
                     classes.Add(item.Name);
             }
 
-            return classes
+            _playerClassesCache = classes
                 .OrderBy(name => name, System.StringComparer.OrdinalIgnoreCase)
                 .ToList();
+            return _playerClassesCache;
         }
     }
 
@@ -131,6 +133,7 @@ public partial class AutoViewModel : BotControlViewModelBase, IDisposable
     [RelayCommand]
     private void ReloadClasses()
     {
+        _playerClassesCache = null;
         OnPropertyChanged(nameof(PlayerClasses));
 
         CurrentClassModes = null;

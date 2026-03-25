@@ -149,5 +149,8 @@
     </DataTemplate>    <DataTemplate DataType="{x:Type vms:ClassEnhancerViewModel}">
         <usercontrols:ClassEnhancerView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type vms:WikiViewModel}">
+        <usercontrols:WikiUserControl />
+    </DataTemplate>
 
 </ResourceDictionary>

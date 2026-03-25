@@ -73,7 +73,7 @@ public partial class ScriptMap : IScriptMap
     private readonly Dictionary<string, PlayerInfo> _playersDictionary = new();
 
     public List<PlayerInfo> Players => _playersDictionary.Values.ToList();
-    public List<PlayerInfo> CellPlayers => Players.FindAll(p => p.Cell == Player.Cell);
+    public List<PlayerInfo> CellPlayers => _playersDictionary.Values.Where(p => p.Cell == Player.Cell).ToList();
 
     public bool Loaded => !Loading
                           && Flash.IsNull("mcConnDetail.stage");

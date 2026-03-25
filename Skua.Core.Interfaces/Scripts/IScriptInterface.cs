@@ -288,6 +288,9 @@ public interface IScriptInterface
     /// <param name="caption">Title of the popup.</param>
     /// <param name="yesAndNo">Whether it should have 'Yes' and 'No' buttons. If <see langword="false"/> will only have the 'Ok' button.</param>
     /// <returns><see langword="true"/> if the 'Yes' or 'Ok' button was clicked.</returns>
+    /// <summary>Query engine for the locally-loaded AQW Wiki JSON. Load via Bot.Wiki.LoadAsync().</summary>
+    IWikiService Wiki { get; }
+
     bool? ShowMessageBox(string message, string caption, bool yesAndNo = false);
 
     /// <summary>

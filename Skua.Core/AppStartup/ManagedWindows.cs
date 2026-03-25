@@ -41,6 +41,7 @@ public class ManagedWindows
         windowService.RegisterManagedWindow("Logs", s.GetRequiredService<LogsViewModel>());
 
         windowService.RegisterManagedWindow("Plugins", s.GetRequiredService<PluginsViewModel>());
+        windowService.RegisterManagedWindow("Wiki", s.GetRequiredService<WikiViewModel>());
     }
 
     public static void RegisterForManager(IServiceProvider s)

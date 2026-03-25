@@ -9,24 +9,55 @@ namespace Skua.App.WPF;
 
 public static class Program
 {
+    private static readonly string CrashLogPath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+        "skua_crash.txt");
+
+    private static void WriteCrashLog(Exception ex)
+    {
+        try
+        {
+            File.WriteAllText(CrashLogPath,
+                $"[{DateTime.Now}] Skua Crash\r\n" +
+                $"Message:    {ex.Message}\r\n" +
+                $"Type:       {ex.GetType().FullName}\r\n" +
+                $"StackTrace: {ex.StackTrace}\r\n" +
+                (ex.InnerException != null
+                    ? $"\r\nInner: {ex.InnerException.Message}\r\n{ex.InnerException.StackTrace}"
+                    : ""));
+        }
+        catch { }
+    }
+
     [STAThread]
     public static void Main()
     {
-        ServicePointManager.SecurityProtocol = SecurityProtocolType.SystemDefault;
+        try
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.SystemDefault;
 
-        AppDomain currentDomain = AppDomain.CurrentDomain;
-        currentDomain.AssemblyResolve += new ResolveEventHandler(ResolveAssemblies);
-        currentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+            currentDomain.AssemblyResolve += new ResolveEventHandler(ResolveAssemblies);
+            currentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-        App app = new();
-        app.InitializeComponent();
-        app.Run();
+            App app = new();
+            app.InitializeComponent();
+            app.Run();
+        }
+        catch (Exception ex)
+        {
+            WriteCrashLog(ex);
+            try { MessageBox.Show($"Fatal startup crash — see skua_crash.txt on your Desktop.\r\n\r\n{ex.Message}", "Skua Crash"); }
+            catch { }
+            throw;
+        }
     }
 
     private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         Exception ex = (Exception)e.ExceptionObject;
-        MessageBox.Show($"Application Crash.\r\nMessage: {ex.Message}\r\nStackTrace: {ex.StackTrace}", "Application");
+        WriteCrashLog(ex);
+        MessageBox.Show($"Application Crash.\r\nMessage: {ex.Message}\r\nStackTrace: {ex.StackTrace}\r\n\r\nFull log: {CrashLogPath}", "Application");
     }
 
     private static Assembly? ResolveAssemblies(object? sender, ResolveEventArgs args)

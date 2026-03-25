@@ -110,7 +110,7 @@ public partial class CoreBotsViewModel : BotControlViewModelBase
         {
             ReadOnlySpan<string> value = option.Split(_separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
             if (value.Length == 2)
-                optionsDict.Add(value[0], value[1]);
+                optionsDict[value[0]] = value[1]; // last occurrence wins; tolerates duplicate keys
         }
         return optionsDict;
     }

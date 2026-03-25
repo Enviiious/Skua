@@ -91,6 +91,7 @@ public static class Services
         services.AddTransient<IPluginContainer, PluginContainer>();
         services.AddSingleton<IPluginHelper, PluginHelper>();
 
+        services.AddSingleton<IWikiService, WikiService>();
         services.AddSingleton<IMapService, MapService>();
         services.AddSingleton<ILogService, LogService>();
         services.AddSingleton<IQuestDataLoaderService, QuestDataLoaderService>();
@@ -188,6 +189,7 @@ public static class Services
         services.AddSingleton<CBOClassSelectViewModel>();
         services.AddSingleton<CBOLoadoutViewModel>();
         services.AddSingleton<ClassEnhancerViewModel>();
+        services.AddSingleton<WikiViewModel>();
 
         return services;
     }

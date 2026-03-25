@@ -6,13 +6,88 @@
     xmlns:local="clr-namespace:Skua.WPF.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vms="clr-namespace:Skua.Core.ViewModels;assembly=Skua.Core"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     d:DataContext="{d:DesignInstance vms:CBOLoadoutViewModel}"
-    d:DesignHeight="450"
+    d:DesignHeight="600"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-        <local:CBOClassEquipmentUserControl
-            Margin="6"
-            DataContext="{Binding ClassEquipmentViewModel}" />
+        <StackPanel>
+
+            <!-- ── Mode Toggle ──────────────────────────────────────── -->
+            <Border
+                Margin="6,6,6,3"
+                Padding="10,8"
+                Background="{DynamicResource MaterialDesignCardBackground}"
+                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                BorderThickness="1"
+                CornerRadius="4">
+                <StackPanel Orientation="Horizontal">
+                    <ToggleButton
+                        IsChecked="{Binding UseOutfitMode}"
+                        Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                        VerticalAlignment="Center" />
+                    <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                        <TextBlock
+                            FontWeight="SemiBold"
+                            Foreground="{DynamicResource PrimaryHueMidBrush}"
+                            Text="{Binding UseOutfitMode, Converter={StaticResource BoolToModeConverter}}" />
+                        <TextBlock
+                            FontSize="11"
+                            Foreground="{DynamicResource MaterialDesignBodyLight}"
+                            Text="Toggle between Outfit (Wardrobe) and Classic (per-item) mode" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- ══════════════════════════════════════════════════════
+                 CLASSIC MODE (UseOutfitMode = False)
+                 • Class selector: Class dropdown + Mode dropdown + "Specify Equipment" chip
+                 • Equipment expander: per-item Helm/Armor/Cape/Weapon/Pet/GroundItem
+            ═══════════════════════════════════════════════════════ -->
+            <StackPanel>
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding UseOutfitMode}" Value="False">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+
+                <!-- Class + Mode + "Specify Equipment" per role -->
+                <local:CBOClassSelectUserControl
+                    Margin="6,3,6,3"
+                    DataContext="{Binding ClassSelectViewModel}" />
+
+                <!-- Per-item equipment in a collapsible expander -->
+                <Expander
+                    Margin="6,3,6,6"
+                    Header="Equipment"
+                    IsExpanded="False">
+                    <local:CBOClassEquipmentUserControl
+                        Margin="3"
+                        DataContext="{Binding ClassEquipmentViewModel}" />
+                </Expander>
+            </StackPanel>
+
+            <!-- ══════════════════════════════════════════════════════
+                 OUTFIT MODE (UseOutfitMode = True)
+                 • Outfit picker: Wardrobe outfit name + ClassUseMode per role
+                 • Plugin (OutfitEquipPlugin) resolves outfit → class name and
+                   equips matching gear whenever CoreBots swaps class
+                 NOTE: visibility is on this Border (DataContext = CBOLoadoutViewModel)
+                 NOT on the UserControl itself, because setting DataContext on the
+                 UserControl breaks the UseOutfitMode binding inside any Style trigger.
+            ═══════════════════════════════════════════════════════ -->
+            <Border Visibility="{Binding UseOutfitMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <local:CBOOutfitEquipmentUserControl
+                    Margin="6,3,6,6"
+                    DataContext="{Binding ClassEquipmentViewModel}" />
+            </Border>
+
+        </StackPanel>
     </ScrollViewer>
 </UserControl>

@@ -63,7 +63,10 @@ public partial class ScriptDrop : ObservableRecipient, IScriptDrop, IAsyncDispos
     public IEnumerable<int> ToPickupIDs => _toPickupIDs.Items;
     private readonly SynchronizedList<ItemBase> _currentDropInfos = new();
     public IEnumerable<ItemBase> CurrentDropInfos => _currentDropInfos.Items;
-    public IEnumerable<string> CurrentDrops => CurrentDropInfos.Select(x => x.Name.Trim()).ToList();
+    private List<string>? _currentDropsCache;
+    public IEnumerable<string> CurrentDrops => _currentDropsCache ??= _currentDropInfos.Items.Select(x => x.Name.Trim()).ToList();
+
+    private void InvalidateDropsCache() => _currentDropsCache = null;
 
     public void Pickup(string name)
     {
@@ -73,6 +76,7 @@ public partial class ScriptDrop : ObservableRecipient, IScriptDrop, IAsyncDispos
         ItemBase drop = _currentDropInfos.Find(d => d.Name.ToLowerInvariant() == name.ToLowerInvariant())!;
         Send.Packet($"%xt%zm%getDrop%{Map.RoomID}%{drop.ID}%");
         _currentDropInfos.Remove(drop);
+        InvalidateDropsCache();
         OnPropertyChanged(nameof(CurrentDropInfos));
         OnPropertyChanged(nameof(CurrentDrops));
     }
@@ -84,6 +88,7 @@ public partial class ScriptDrop : ObservableRecipient, IScriptDrop, IAsyncDispos
 
         Send.Packet($"%xt%zm%getDrop%{Map.RoomID}%{id}%");
         _currentDropInfos.Remove(CurrentDropInfos.SingleOrDefault(d => d.ID == id)!);
+        InvalidateDropsCache();
         OnPropertyChanged(nameof(CurrentDropInfos));
         OnPropertyChanged(nameof(CurrentDrops));
     }
@@ -116,6 +121,7 @@ public partial class ScriptDrop : ObservableRecipient, IScriptDrop, IAsyncDispos
         foreach (ItemBase drop in _currentDropInfos.Items)
             Pickup(drop.Name);
         _currentDropInfos.Clear();
+        InvalidateDropsCache();
         OnPropertyChanged(nameof(CurrentDropInfos));
         OnPropertyChanged(nameof(CurrentDrops));
         if (!skipWait)
@@ -303,6 +309,7 @@ public partial class ScriptDrop : ObservableRecipient, IScriptDrop, IAsyncDispos
     private void ClearDrops(ScriptDrop recipient, LogoutMessage message)
     {
         recipient._currentDropInfos.Clear();
+        recipient.InvalidateDropsCache();
         recipient.OnPropertyChanged(nameof(recipient.CurrentDropInfos));
         recipient.OnPropertyChanged(nameof(recipient.CurrentDrops));
     }
@@ -316,6 +323,7 @@ public partial class ScriptDrop : ObservableRecipient, IScriptDrop, IAsyncDispos
             recipient._currentDropInfos.Add(message.Item);
         else
             recipient._currentDropInfos.Find(i => i.Equals(message.Item))!.Quantity += message.Item.Quantity;
+        recipient.InvalidateDropsCache();
         recipient.OnPropertyChanged(nameof(recipient.CurrentDropInfos));
         recipient.OnPropertyChanged(nameof(recipient.CurrentDrops));
     }

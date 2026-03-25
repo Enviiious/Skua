@@ -63,6 +63,7 @@ public class ScriptInterface : IScriptInterface, IScriptInterfaceManager, IDispo
     public ICaptureProxy GameProxy { get; }
     public IScriptAccounts Accounts { get; }
     public IScriptOptionContainer? Config => Manager.Config;
+    public IWikiService Wiki { get; }
     public Random Random { get; set; } = new Random();
 
     public ScriptInterface(
@@ -102,7 +103,8 @@ public class ScriptInterface : IScriptInterface, IScriptInterfaceManager, IDispo
         ISettingsService settingsService,
         IAuraMonitorService auraMonitorService,
         IUltraBossHelper ultraBossHelper,
-        IScriptAccounts accounts)
+        IScriptAccounts accounts,
+        IWikiService wiki)
     {
         _logger = logger;
         Manager = manager;
@@ -142,6 +144,9 @@ public class ScriptInterface : IScriptInterface, IScriptInterfaceManager, IDispo
         UltraBossHelper = ultraBossHelper;
         Accounts = accounts;
         _settingsService = settingsService;
+        Wiki = wiki;
+        // Wiki auto-load disabled — file is 400MB+ and causes startup lag.
+        // Use the "Load Wiki" button in the Wiki Browser window instead.
 
         Version = Version.Parse(settingsService.Get("ApplicationVersion", "0.0.0.0"));
 

@@ -1,0 +1,404 @@
+using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Skua.Core.Interfaces;
+using Skua.Core.Models.Wiki;
+
+namespace Skua.Core.Services;
+
+public class WikiService : IWikiService
+{
+    // ── State ─────────────────────────────────────────────────────────────
+
+    public bool    IsLoaded   { get; private set; }
+    public int     PageCount  => _bySlug.Count;
+    public string? LoadedPath { get; private set; }
+
+    // ── Indexes ───────────────────────────────────────────────────────────
+
+    private Dictionary<string, WikiPage>        _bySlug  = new(StringComparer.OrdinalIgnoreCase);
+    private Dictionary<string, WikiPage>        _byTitle = new(StringComparer.OrdinalIgnoreCase);
+    private Dictionary<string, List<WikiPage>>  _byTag   = new(StringComparer.OrdinalIgnoreCase);
+
+    // Pre-built category lists (avoid full-scan at runtime)
+    private List<WikiPage> _allEnhancements = new();
+    private List<WikiPage> _allItems        = new();
+    private List<WikiPage> _allMonsters     = new();
+    private List<WikiPage> _allQuests       = new();
+
+    private static readonly string DefaultPath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        "Skua", "aqwwiki_full.json");
+
+    // Tag sets for categorisation
+    private static readonly HashSet<string> EnhancementTags = new(StringComparer.OrdinalIgnoreCase)
+        { "enhancement", "forge-enhancement", "weapon-enhancement" };
+    private static readonly HashSet<string> QuestTags = new(StringComparer.OrdinalIgnoreCase)
+        { "quest" };
+    private static readonly HashSet<string> MonsterTags = new(StringComparer.OrdinalIgnoreCase)
+        { "monster" };
+    private static readonly HashSet<string> ItemTags = new(StringComparer.OrdinalIgnoreCase)
+        { "item", "armor", "helm", "cape", "weapon", "sword", "dagger", "staff",
+          "bow", "axe", "mace", "wand", "gun", "polearm", "pet" };
+
+    // ── Loading ───────────────────────────────────────────────────────────
+
+    public Task<bool> LoadAsync() => LoadAsync(DefaultPath);
+
+    public async Task<bool> LoadAsync(string path)
+    {
+        if (!File.Exists(path))
+            return false;
+
+        try
+        {
+            string json = await File.ReadAllTextAsync(path).ConfigureAwait(false);
+
+            var raw = JsonConvert.DeserializeObject<Dictionary<string, RawPage>>(json);
+            if (raw == null) return false;
+
+            var bySlug  = new Dictionary<string, WikiPage>(raw.Count, StringComparer.OrdinalIgnoreCase);
+            var byTitle = new Dictionary<string, WikiPage>(raw.Count, StringComparer.OrdinalIgnoreCase);
+            var byTag   = new Dictionary<string, List<WikiPage>>(StringComparer.OrdinalIgnoreCase);
+
+            var allEnhancements = new List<WikiPage>();
+            var allItems        = new List<WikiPage>();
+            var allMonsters     = new List<WikiPage>();
+            var allQuests       = new List<WikiPage>();
+
+            foreach (var (slug, raw_page) in raw)
+            {
+                var page = new WikiPage
+                {
+                    Slug    = slug,
+                    Title   = raw_page.Title   ?? slug,
+                    Url     = raw_page.Url     ?? $"http://aqwwiki.wikidot.com/{slug}",
+                    Tags    = raw_page.Tags    ?? new(),
+                    Text    = raw_page.Text    ?? string.Empty,
+                    Html    = raw_page.Html    ?? string.Empty,
+                    Tables  = raw_page.Tables  ?? new(),
+                    Scraped = raw_page.Scraped ?? string.Empty,
+                };
+
+                bySlug[slug] = page;
+
+                if (!byTitle.ContainsKey(page.Title))
+                    byTitle[page.Title] = page;
+
+                bool isEnh  = false;
+                bool isItem = false;
+                bool isMon  = false;
+                bool isQst  = false;
+
+                foreach (var tag in page.Tags)
+                {
+                    if (!byTag.TryGetValue(tag, out var list))
+                        byTag[tag] = list = new List<WikiPage>();
+                    list.Add(page);
+
+                    if (EnhancementTags.Contains(tag)) isEnh  = true;
+                    if (ItemTags.Contains(tag))         isItem = true;
+                    if (MonsterTags.Contains(tag))      isMon  = true;
+                    if (QuestTags.Contains(tag))        isQst  = true;
+                }
+
+                // Fallback text-based enhancement detection (no tag match)
+                if (!isEnh && IsEnhancement(page)) isEnh = true;
+
+                if (isEnh)  allEnhancements.Add(page);
+                if (isItem) allItems.Add(page);
+                if (isMon)  allMonsters.Add(page);
+                if (isQst)  allQuests.Add(page);
+            }
+
+            _bySlug  = bySlug;
+            _byTitle = byTitle;
+            _byTag   = byTag;
+
+            _allEnhancements = allEnhancements;
+            _allItems        = allItems;
+            _allMonsters     = allMonsters;
+            _allQuests       = allQuests;
+
+            LoadedPath = path;
+            IsLoaded   = true;
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    // ── Direct Lookup ─────────────────────────────────────────────────────
+
+    public WikiPage? GetBySlug(string slug)
+        => _bySlug.TryGetValue(slug, out var p) ? p : null;
+
+    public WikiPage? GetByTitle(string title)
+        => _byTitle.TryGetValue(title, out var p) ? p : null;
+
+    // ── Search ────────────────────────────────────────────────────────────
+
+    public List<WikiPage> Search(string query, int limit = 10)
+    {
+        if (!IsLoaded || string.IsNullOrWhiteSpace(query)) return new();
+
+        string q = query.Trim();
+
+        // Single-pass: collect title and text matches separately to rank title first.
+        // Evaluate title-match once per page (no double Contains).
+        var titleMatches = new List<WikiPage>();
+        var textMatches  = new List<WikiPage>();
+
+        foreach (var page in _bySlug.Values)
+        {
+            bool inTitle = page.Title.Contains(q, StringComparison.OrdinalIgnoreCase);
+            if (inTitle)
+            {
+                titleMatches.Add(page);
+            }
+            else if (page.Text.Contains(q, StringComparison.OrdinalIgnoreCase))
+            {
+                textMatches.Add(page);
+            }
+
+            // Early-exit once we have plenty of title matches
+            if (titleMatches.Count >= limit) break;
+        }
+
+        var result = new List<WikiPage>(limit);
+        result.AddRange(titleMatches.Take(limit));
+        if (result.Count < limit)
+            result.AddRange(textMatches.Take(limit - result.Count));
+        return result;
+    }
+
+    public List<WikiPage> SearchTitles(string query, int limit = 10)
+    {
+        if (!IsLoaded || string.IsNullOrWhiteSpace(query)) return new();
+
+        string q = query.Trim();
+        var results = new List<WikiPage>(limit);
+
+        foreach (var page in _bySlug.Values)
+        {
+            if (page.Title.Contains(q, StringComparison.OrdinalIgnoreCase))
+            {
+                results.Add(page);
+                if (results.Count == limit) break;
+            }
+        }
+
+        return results;
+    }
+
+    public List<WikiPage> GetByTag(string tag)
+        => _byTag.TryGetValue(tag, out var list) ? list : new();
+
+    public List<WikiPage> GetByTags(IEnumerable<string> tags)
+    {
+        if (!IsLoaded) return new();
+
+        // Use tag index intersection: start with smallest bucket, filter against rest
+        string[]? tagArray = tags as string[] ?? tags.ToArray();
+        if (tagArray.Length == 0) return new();
+
+        List<WikiPage>? smallest = null;
+        string? smallestTag = null;
+
+        foreach (var t in tagArray)
+        {
+            if (_byTag.TryGetValue(t, out var bucket))
+            {
+                if (smallest == null || bucket.Count < smallest.Count)
+                {
+                    smallest    = bucket;
+                    smallestTag = t;
+                }
+            }
+            else return new(); // No pages have this tag at all
+        }
+
+        if (smallest == null) return new();
+
+        // Filter the smallest bucket against the remaining tags
+        var otherTags = tagArray.Where(t => !string.Equals(t, smallestTag, StringComparison.OrdinalIgnoreCase)).ToArray();
+        if (otherTags.Length == 0) return new List<WikiPage>(smallest);
+
+        return smallest
+            .Where(p => otherTags.All(t => p.Tags.Contains(t, StringComparer.OrdinalIgnoreCase)))
+            .ToList();
+    }
+
+    // ── Enhancements ──────────────────────────────────────────────────────
+
+    public WikiPage? GetEnhancement(string name)
+    {
+        var page = GetByTitle(name)
+                ?? GetBySlug(name.ToLower().Replace(" ", "-"));
+
+        if (page != null && IsEnhancement(page)) return page;
+
+        return _allEnhancements
+            .FirstOrDefault(p => p.Title.Contains(name, StringComparison.OrdinalIgnoreCase));
+    }
+
+    public List<WikiPage> GetAllEnhancements() => _allEnhancements;
+
+    public List<string> GetEnhancementEffects(string name)
+    {
+        var page = GetEnhancement(name);
+        if (page == null) return new();
+        return ExtractBulletPoints(page.Text);
+    }
+
+    private static bool IsEnhancement(WikiPage p)
+        => p.Tags.Any(t => EnhancementTags.Contains(t))
+        || p.Text.Contains("Special skill on", StringComparison.OrdinalIgnoreCase)
+        || p.Text.Contains("forge weapon enhancement", StringComparison.OrdinalIgnoreCase);
+
+    // ── Quests ────────────────────────────────────────────────────────────
+
+    public WikiPage? GetQuest(string name)
+        => GetByTitle(name)
+        ?? _allQuests.FirstOrDefault(p =>
+               p.Title.Contains(name, StringComparison.OrdinalIgnoreCase));
+
+    public List<WikiPage> GetAllQuests() => _allQuests;
+
+    public List<(string Monster, string Map)> FindDropSource(string itemName)
+    {
+        if (!IsLoaded) return new();
+
+        var results = new List<(string, string)>();
+
+        var candidates = Search(itemName, 20);
+        foreach (var page in candidates)
+        {
+            var matches = Regex.Matches(page.Text,
+                @"[Dd]ropped? by ([^\n\r/]+?) (?:in |at )?/?([\w]+)",
+                RegexOptions.IgnoreCase);
+
+            foreach (Match m in matches)
+            {
+                string monster = m.Groups[1].Value.Trim();
+                string map     = m.Groups[2].Value.Trim();
+                if (!string.IsNullOrEmpty(monster) && !string.IsNullOrEmpty(map))
+                    results.Add((monster, map));
+            }
+
+            foreach (var table in page.Tables)
+                foreach (var row in table)
+                {
+                    if (row.Any(cell => cell.Contains(itemName, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        string combined = string.Join(" ", row);
+                        var mm = Regex.Match(combined, @"([\w\s]+?) in /?([\w]+)");
+                        if (mm.Success)
+                            results.Add((mm.Groups[1].Value.Trim(), mm.Groups[2].Value.Trim()));
+                    }
+                }
+        }
+
+        return results.Distinct().ToList();
+    }
+
+    // ── Monsters ──────────────────────────────────────────────────────────
+
+    public WikiPage? GetMonster(string name)
+        => GetByTitle(name)
+        ?? GetByTitle(name + " (Monster)")
+        ?? _allMonsters.FirstOrDefault(p =>
+               p.Title.Contains(name, StringComparison.OrdinalIgnoreCase));
+
+    public List<WikiPage> GetAllMonsters() => _allMonsters;
+
+    public List<string> GetMonsterLocations(string monsterName)
+    {
+        var page = GetMonster(monsterName);
+        if (page == null) return new();
+
+        var locations = new List<string>();
+        var matches   = Regex.Matches(page.Text,
+            @"[Ll]ocation[s]?:?\s*([^\n\r]+)",
+            RegexOptions.IgnoreCase);
+
+        foreach (Match m in matches)
+            locations.Add(m.Groups[1].Value.Trim());
+
+        return locations.Distinct().ToList();
+    }
+
+    public List<string> GetMonsterDrops(string monsterName)
+    {
+        var page = GetMonster(monsterName);
+        if (page == null) return new();
+
+        var drops   = new List<string>();
+        var matches = Regex.Matches(page.Text,
+            @"[Dd]rop[s]?:?\s*([^\n\r]+)",
+            RegexOptions.IgnoreCase);
+
+        foreach (Match m in matches)
+            drops.Add(m.Groups[1].Value.Trim());
+
+        foreach (var table in page.Tables)
+            foreach (var row in table)
+                if (row.Count > 0 && !string.IsNullOrWhiteSpace(row[0]))
+                    drops.Add(row[0].Trim());
+
+        return drops.Distinct().ToList();
+    }
+
+    // ── Items ─────────────────────────────────────────────────────────────
+
+    public WikiPage? GetItem(string name)
+        => GetByTitle(name)
+        ?? _allItems.FirstOrDefault(p =>
+               p.Title.Contains(name, StringComparison.OrdinalIgnoreCase));
+
+    public List<WikiPage> GetAllItems() => _allItems;
+
+    public string GetItemSource(string itemName)
+    {
+        var page = GetItem(itemName);
+        if (page == null) return string.Empty;
+
+        var m = Regex.Match(page.Text,
+            @"[Ll]ocation[s]?:?\s*([^\n\r]+)",
+            RegexOptions.IgnoreCase);
+
+        return m.Success ? m.Groups[1].Value.Trim() : string.Empty;
+    }
+
+    // ── Helpers ───────────────────────────────────────────────────────────
+
+    private static List<string> ExtractBulletPoints(string text)
+    {
+        var results = new List<string>();
+        foreach (var line in text.Split('\n'))
+        {
+            string t = line.Trim();
+            if (t.StartsWith("-") || t.StartsWith("•") || t.StartsWith("*"))
+            {
+                string item = t.TrimStart('-', '•', '*', ' ');
+                if (!string.IsNullOrWhiteSpace(item))
+                    results.Add(item);
+            }
+        }
+        return results;
+    }
+
+    // ── Raw deserialization model ─────────────────────────────────────────
+
+    private class RawPage
+    {
+        [JsonProperty("title")]   public string?             Title   { get; set; }
+        [JsonProperty("url")]     public string?             Url     { get; set; }
+        [JsonProperty("tags")]    public List<string>?       Tags    { get; set; }
+        [JsonProperty("text")]    public string?             Text    { get; set; }
+        [JsonProperty("html")]    public string?             Html    { get; set; }
+        [JsonProperty("tables")]  public List<List<List<string>>>? Tables  { get; set; }
+        [JsonProperty("scraped")] public string?             Scraped { get; set; }
+    }
+}

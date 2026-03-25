@@ -36,7 +36,8 @@ internal class MainMenu
                 new("Junk Items"),
                 new("Stats"),
                 new("Console"),
-                new("Class Enhancer")
+                new("Class Enhancer"),
+                new("Wiki")
             }),
             new("Skills"),
             new("Packets", new List<MainMenuItemViewModel>()

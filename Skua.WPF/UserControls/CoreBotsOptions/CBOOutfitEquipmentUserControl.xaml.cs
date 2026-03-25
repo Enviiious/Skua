@@ -4,20 +4,20 @@ using System.Windows.Controls;
 
 namespace Skua.WPF.UserControls;
 
-public partial class CBOClassEquipmentUserControl : UserControl
+public partial class CBOOutfitEquipmentUserControl : UserControl
 {
-    public CBOClassEquipmentUserControl()
+    public CBOOutfitEquipmentUserControl()
     {
         InitializeComponent();
     }
 
     /// <summary>
-    /// Auto-refresh the inventory item lists when any dropdown is opened
-    /// so the lists are always up to date without a manual button press.
+    /// Auto-refresh the outfit list from the player's Wardrobe when a
+    /// dropdown is opened so outfits are always current.
     /// </summary>
     private void ComboBox_DropDownOpened(object sender, EventArgs e)
     {
         if (DataContext is CBOClassEquipmentViewModel vm)
-            vm.RefreshInventoryCommand.Execute(null);
+            vm.RefreshOutfitsCommand.Execute(null);
     }
 }

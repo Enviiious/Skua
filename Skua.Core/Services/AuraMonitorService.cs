@@ -16,6 +16,8 @@ public class AuraMonitorService : IAuraMonitorService, IDisposable, IAsyncDispos
     private readonly ConcurrentDictionary<string, AuraState> _selfAuraStates = new();
     private readonly ConcurrentDictionary<string, AuraState> _targetAuraStates = new();
     private readonly object _lockObject = new();
+    // Reusable buffer for aura name lookups — avoid per-poll allocation
+    private readonly HashSet<string> _auraNameBuffer = new(StringComparer.Ordinal);
     private bool _disposed;
 
 
@@ -121,7 +123,12 @@ public class AuraMonitorService : IAuraMonitorService, IDisposable, IAsyncDispos
     {
         if (currentAuras == null) return;
 
-        HashSet<string> currentAuraNames = new(currentAuras.Select(a => a.Name ?? string.Empty));
+        // Reuse buffer to avoid per-tick allocation
+        _auraNameBuffer.Clear();
+        foreach (var a in currentAuras)
+            if (!string.IsNullOrEmpty(a.Name))
+                _auraNameBuffer.Add(a.Name);
+        HashSet<string> currentAuraNames = _auraNameBuffer;
 
         foreach (Aura aura in currentAuras)
         {

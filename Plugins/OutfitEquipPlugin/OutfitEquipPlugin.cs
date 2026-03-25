@@ -101,15 +101,15 @@ public class OutfitEquipPlugin : ISkuaPlugin
 
         List<string> lines = File.ReadAllLines(cboPath).ToList();
 
-        // Build a quick lookup dict from the file
-        Dictionary<string, string> dict = lines
-            .Where(l => l.Contains(": "))
-            .Select(l => l.Split(new[] { ": " }, 2, StringSplitOptions.None))
-            .Where(p => p.Length == 2)
-            .ToDictionary(
-                p => p[0].Trim(),
-                p => p[1].Trim(),
-                StringComparer.OrdinalIgnoreCase);
+        // Build a quick lookup dict from the file (last occurrence wins — tolerates duplicate keys)
+        var dict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        foreach (string line in lines)
+        {
+            if (!line.Contains(": ")) continue;
+            string[] parts = line.Split(new[] { ": " }, 2, StringSplitOptions.None);
+            if (parts.Length == 2)
+                dict[parts[0].Trim()] = parts[1].Trim();
+        }
 
         // (outfitKey, classSelectKey, modeSelectKey, modeSourceKey)
         var mappings = new[]
