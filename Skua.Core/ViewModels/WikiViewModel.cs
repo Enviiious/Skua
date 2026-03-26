@@ -57,11 +57,16 @@ public partial class WikiViewModel : ObservableObject, IManagedWindow
     }
 
     /// <summary>Navigate by slug (used when intercepting wiki URL clicks).</summary>
-    public void NavigateToSlug(string slug)
+    /// <returns>True if the page was found locally; false if the caller should open a browser.</returns>
+    public bool NavigateToSlug(string slug)
     {
         var page = _wiki.GetBySlug(slug);
         if (page != null)
+        {
             _dispatcher.Invoke(() => SelectedPage = page);
+            return true;
+        }
+        return false;
     }
 
     // ── Commands ──────────────────────────────────────────────────────────────
@@ -75,7 +80,7 @@ public partial class WikiViewModel : ObservableObject, IManagedWindow
         {
             StatusText = ok
                 ? $"{_wiki.PageCount:N0} pages loaded"
-                : "Could not find wiki file at %AppData%\\Skua\\aqwwiki_full.json.";
+                : "Could not find wiki file at %AppData%\\Skua\\aqwwiki_full.json.gz (or .json).";
         });
     }
 

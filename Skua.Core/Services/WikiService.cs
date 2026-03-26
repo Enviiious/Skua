@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Skua.Core.Interfaces;
@@ -27,9 +28,14 @@ public class WikiService : IWikiService
     private List<WikiPage> _allMonsters     = new();
     private List<WikiPage> _allQuests       = new();
 
-    private static readonly string DefaultPath = Path.Combine(
+    // Prefer the compressed file; fall back to plain JSON for backwards compatibility
+    private static readonly string DefaultPathGz   = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        "Skua", "aqwwiki_full.json.gz");
+    private static readonly string DefaultPathJson  = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
         "Skua", "aqwwiki_full.json");
+    private static readonly string DefaultPath = DefaultPathGz;
 
     // Tag sets for categorisation
     private static readonly HashSet<string> EnhancementTags = new(StringComparer.OrdinalIgnoreCase)
@@ -44,7 +50,12 @@ public class WikiService : IWikiService
 
     // ── Loading ───────────────────────────────────────────────────────────
 
-    public Task<bool> LoadAsync() => LoadAsync(DefaultPath);
+    public Task<bool> LoadAsync()
+    {
+        // Prefer compressed; fall back to plain JSON so existing installs keep working
+        string path = File.Exists(DefaultPathGz) ? DefaultPathGz : DefaultPathJson;
+        return LoadAsync(path);
+    }
 
     public async Task<bool> LoadAsync(string path)
     {
@@ -93,12 +104,16 @@ public class WikiService : IWikiService
         var r          = new ParseResult();
         var serializer = new JsonSerializer();
 
-        // 64 KB read buffer + SequentialScan hint for large sequential files
-        using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read,
-                                      bufferSize: 65536, FileOptions.SequentialScan);
-        using var sr = new StreamReader(fs, System.Text.Encoding.UTF8, detectEncodingFromByteOrderMarks: true,
-                                        bufferSize: 65536, leaveOpen: false);
-        using var jr = new JsonTextReader(sr) { CloseInput = false };
+        // 64 KB read buffer + SequentialScan hint for large sequential files.
+        // For .gz files, decompress on-the-fly through GZipStream — no temp file needed.
+        bool isGzip = path.EndsWith(".gz", StringComparison.OrdinalIgnoreCase);
+        using var fs  = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read,
+                                       bufferSize: 65536, FileOptions.SequentialScan);
+        using var dec = isGzip ? new GZipStream(fs, CompressionMode.Decompress) : (Stream)fs;
+        using var sr  = new StreamReader(dec, System.Text.Encoding.UTF8,
+                                         detectEncodingFromByteOrderMarks: true,
+                                         bufferSize: 65536, leaveOpen: false);
+        using var jr  = new JsonTextReader(sr) { CloseInput = false };
 
         // Expect the root to be an object: { "slug": { page }, ... }
         if (!jr.Read() || jr.TokenType != JsonToken.StartObject)

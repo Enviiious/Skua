@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>UltraBossPlugin</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Skua.Core">
+      <HintPath>C:\Skua\build\x64\Assemblies\Skua.Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Skua.Core.Interfaces">
+      <HintPath>C:\Skua\build\x64\Assemblies\Skua.Core.Interfaces.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Skua.Core.Models">
+      <HintPath>C:\Skua\build\x64\Assemblies\Skua.Core.Models.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
+  </ItemGroup>
+
+</Project>

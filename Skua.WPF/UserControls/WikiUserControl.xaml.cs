@@ -1,7 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,6 +45,10 @@ public partial class WikiUserControl : UserControl
         img { max-width: 120px; max-height: 120px; }
         .item-title { font-size: 18px; font-weight: 700; color: #ef5350; margin-bottom: 10px; }
         p { margin: 4px 0 8px 0; }
+        .drop-note { font-size: 11px; color: #888; margin: 0 0 4px 0; font-style: italic; }
+        .rate-good   { color: #66bb6a; font-weight: 600; }
+        .rate-medium { color: #ffa726; font-weight: 600; }
+        .rate-low    { color: #ef5350; font-weight: 600; }
         """;
 
     // Strips <script>, <link>, <style>, and inline on* handlers that cause IE engine errors
@@ -118,10 +126,16 @@ public partial class WikiUserControl : UserControl
                       string.Empty),
                       string.Empty);
 
+        // Append observed drop rate data from the user's farming sessions
+        string dropSection = BuildDropRateSection(page.Title);
+        if (!string.IsNullOrEmpty(dropSection))
+            body += dropSection;
+
         string html = $"""
             <!DOCTYPE html>
             <html>
             <head>
+            <meta charset="utf-8">
             <base href="http://aqwwiki.wikidot.com/" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <style>{Css}</style>
@@ -136,12 +150,135 @@ public partial class WikiUserControl : UserControl
         WikiContent.NavigateToString(html);
     }
 
+    // ── Drop Rate injection ───────────────────────────────────────────────────
+
+    // Simple record matching the DropRatePlugin's CumulativeData JSON format
+    private sealed class DropEntry
+    {
+        public int    QuestId   { get; set; }
+        public string QuestName { get; set; } = string.Empty;
+        public string ItemName  { get; set; } = string.Empty;
+        public int    Drops     { get; set; }
+        public int    Kills     { get; set; }
+    }
+
+    // Cache: normalized item name → rows (refreshed every 60 s)
+    private static Dictionary<string, List<DropEntry>>? _dropCache;
+    private static DateTime _dropCacheStamp;
+    private static readonly object _dropCacheLock = new();
+    private static readonly JsonSerializerOptions _jsonOpts =
+        new() { PropertyNameCaseInsensitive = true };
+
+    private static Dictionary<string, List<DropEntry>> GetDropCache()
+    {
+        lock (_dropCacheLock)
+        {
+            if (_dropCache != null && (DateTime.Now - _dropCacheStamp).TotalSeconds < 60)
+                return _dropCache;
+
+            var cache = new Dictionary<string, List<DropEntry>>(StringComparer.Ordinal);
+            string skuaDir = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Skua");
+
+            if (Directory.Exists(skuaDir))
+            {
+                foreach (string file in Directory.GetFiles(skuaDir, "DropRates_*.json"))
+                {
+                    try
+                    {
+                        var raw = JsonSerializer.Deserialize<Dictionary<string, DropEntry>>(
+                            File.ReadAllText(file), _jsonOpts);
+                        if (raw == null) continue;
+
+                        foreach (var (_, entry) in raw)
+                        {
+                            if (string.IsNullOrEmpty(entry.ItemName) || entry.Kills == 0) continue;
+                            string key = Norm(entry.ItemName);
+                            if (!cache.TryGetValue(key, out var list))
+                                cache[key] = list = new List<DropEntry>();
+                            list.Add(entry);
+                        }
+                    }
+                    catch { /* skip corrupt file */ }
+                }
+            }
+
+            _dropCache = cache;
+            _dropCacheStamp = DateTime.Now;
+            return cache;
+        }
+    }
+
+    /// <summary>Strips all non-alphanumeric characters and lowercases — used to fuzzy-match
+    /// wiki slugs (e.g. "fears-bones") against item names (e.g. "Fear's Bones").</summary>
+    private static string Norm(string s)
+    {
+        var sb = new StringBuilder(s.Length);
+        foreach (char c in s)
+            if (char.IsLetterOrDigit(c))
+                sb.Append(char.ToLowerInvariant(c));
+        return sb.ToString();
+    }
+
+    /// <summary>Builds an HTML section showing the user's observed drop rates for this item,
+    /// or returns an empty string if no data exists for the current wiki page.</summary>
+    private static string BuildDropRateSection(string pageTitle)
+    {
+        try
+        {
+            var cache = GetDropCache();
+            string key = Norm(pageTitle);
+            if (!cache.TryGetValue(key, out var rows) || rows.Count == 0)
+                return string.Empty;
+
+            // Group by quest (multiple accounts may contribute data for the same quest)
+            var byQuest = rows
+                .GroupBy(r => r.QuestId)
+                .Select(g => new
+                {
+                    QuestName = g.First().QuestName,
+                    Drops     = g.Sum(r => r.Drops),
+                    Kills     = g.Sum(r => r.Kills),
+                })
+                .OrderByDescending(q => q.Kills)
+                .ToList();
+
+            if (byQuest.Count == 0) return string.Empty;
+
+            var sb = new StringBuilder();
+            sb.Append("<h2>Observed Drop Rates</h2>");
+            sb.Append("<p class=\"drop-note\">Based on your farming sessions &mdash; all accounts combined.</p>");
+            sb.Append("<table><thead><tr><th>Quest</th><th>Drops / Kills</th><th>Rate</th></tr></thead><tbody>");
+
+            foreach (var q in byQuest)
+            {
+                if (q.Kills == 0) continue;
+                double rate = q.Drops * 100.0 / q.Kills;
+                string cls  = rate >= 50 ? "rate-good" : rate >= 20 ? "rate-medium" : "rate-low";
+                sb.Append("<tr>");
+                sb.Append($"<td>{System.Net.WebUtility.HtmlEncode(q.QuestName)}</td>");
+                sb.Append($"<td>{q.Drops}&nbsp;/&nbsp;{q.Kills}</td>");
+                sb.Append($"<td class=\"{cls}\">{rate:F1}%</td>");
+                sb.Append("</tr>");
+            }
+
+            sb.Append("</tbody></table>");
+            return sb.ToString();
+        }
+        catch
+        {
+            return string.Empty;
+        }
+    }
+
+    // ── Plain-text fallback ───────────────────────────────────────────────────
+
     /// <summary>Fallback when no HTML is available — convert plain text to simple HTML.</summary>
     private static string BuildTextBody(string text)
     {
         if (string.IsNullOrWhiteSpace(text)) return string.Empty;
 
-        var sb = new System.Text.StringBuilder();
+        var sb = new StringBuilder();
         bool inList = false;
 
         foreach (var rawLine in text.Split('\n'))
@@ -170,6 +307,8 @@ public partial class WikiUserControl : UserControl
         return sb.ToString();
     }
 
+    // ── Navigation ────────────────────────────────────────────────────────────
+
     /// <summary>Intercept navigation so wiki-internal links open inside the browser panel.</summary>
     private void OnNavigating(object sender, NavigatingCancelEventArgs e)
     {
@@ -186,7 +325,12 @@ public partial class WikiUserControl : UserControl
             string slug = url.TrimEnd('/')
                             .Split('/', StringSplitOptions.RemoveEmptyEntries)
                             .Last();
-            _vm?.NavigateToSlug(slug);
+            // If the page isn't in the local wiki (e.g. merge shop, quest, NPC),
+            // fall back to opening it in the user's browser.
+            bool found = _vm?.NavigateToSlug(slug) ?? false;
+            if (!found)
+                System.Diagnostics.Process.Start(
+                    new System.Diagnostics.ProcessStartInfo(url) { UseShellExecute = true });
         }
         else if (url.StartsWith("http", StringComparison.OrdinalIgnoreCase))
         {

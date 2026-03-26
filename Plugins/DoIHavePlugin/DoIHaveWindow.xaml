@@ -1,0 +1,390 @@
+<Window
+    x:Class="DoIHavePlugin_NS.DoIHaveWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:local="clr-namespace:DoIHavePlugin_NS"
+    Title="Do I Have?"
+    Width="1000"
+    Height="660"
+    MinWidth="700"
+    MinHeight="480"
+    WindowStartupLocation="CenterScreen"
+    ResizeMode="CanResize"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextElement.FontFamily="{DynamicResource MaterialDesignFont}"
+    Background="{DynamicResource MaterialDesignPaper}">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter    x:Key="BoolVis" />
+        <local:BoolToVisConverter        x:Key="BoolVisInv" />
+        <local:BoolToCheckConverter      x:Key="BoolCheck" />
+        <local:NotBoolConverter          x:Key="NotBool" />
+        <local:StringToBrushConverter    x:Key="StrBrush" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- ── Header ─────────────────────────────────────────────────────── -->
+        <Grid Grid.Row="0" Margin="14,12,14,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock
+                    FontSize="24"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource PrimaryHueMidBrush}"
+                    Text="Do I Have?" />
+                <TextBlock
+                    Margin="14,0,0,0"
+                    VerticalAlignment="Bottom"
+                    FontSize="11"
+                    Foreground="{DynamicResource MaterialDesignBodyLight}"
+                    Text="AQW Item Database + Live Inventory" />
+            </StackPanel>
+
+            <Button
+                Grid.Column="1"
+                Content="⟳ Refresh Inventory"
+                Command="{Binding RefreshInventoryCommand}"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                IsEnabled="{Binding IsLoading, Converter={StaticResource NotBool}}" />
+        </Grid>
+
+        <!-- ── Tab Control ────────────────────────────────────────────────── -->
+        <TabControl
+            Grid.Row="1"
+            Margin="8,0,8,0"
+            Style="{StaticResource MaterialDesignFilledTabControl}">
+
+            <!-- ═══ SEARCH TAB ══════════════════════════════════════════════ -->
+            <TabItem Header="  Search  ">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Search box -->
+                    <TextBox
+                        Grid.Row="0"
+                        Margin="0,0,0,10"
+                        FontSize="15"
+                        materialDesign:HintAssist.Hint="Search item name… (results appear as you type)"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <!-- Loading spinner -->
+                    <ProgressBar
+                        Grid.Row="1"
+                        IsIndeterminate="True"
+                        Style="{StaticResource MaterialDesignCircularProgressBar}"
+                        Width="48" Height="48"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Panel.ZIndex="10"
+                        Visibility="{Binding IsLoading, Converter={StaticResource BoolVis}}" />
+
+                    <!-- Results DataGrid -->
+                    <DataGrid
+                        Grid.Row="1"
+                        ItemsSource="{Binding SearchResults}"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"
+                        CanUserReorderColumns="False"
+                        CanUserSortColumns="True"
+                        SelectionMode="Single"
+                        GridLinesVisibility="Horizontal"
+                        HeadersVisibility="Column"
+                        materialDesign:DataGridAssist.CellPadding="8 6 8 6"
+                        Style="{StaticResource MaterialDesignDataGrid}">
+
+                        <DataGrid.Columns>
+
+                            <!-- Name -->
+                            <DataGridTextColumn
+                                Header="Item Name"
+                                Binding="{Binding Name}"
+                                Width="220" />
+
+                            <!-- Category -->
+                            <DataGridTextColumn
+                                Header="Type"
+                                Binding="{Binding Category}"
+                                Width="90" />
+
+                            <!-- Flags -->
+                            <DataGridTextColumn
+                                Header="Flags"
+                                Binding="{Binding Flags}"
+                                Width="130" />
+
+                            <!-- Price -->
+                            <DataGridTextColumn
+                                Header="Price"
+                                Binding="{Binding Price}"
+                                Width="120" />
+
+                            <!-- Owned status (coloured) -->
+                            <DataGridTemplateColumn Header="Owned" Width="170">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            Text="{Binding OwnedText}"
+                                            Foreground="{Binding OwnedColor, Converter={StaticResource StrBrush}}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- Location -->
+                            <DataGridTextColumn
+                                Header="Location"
+                                Binding="{Binding Location}"
+                                Width="*" />
+
+                            <!-- Wiki link -->
+                            <DataGridTemplateColumn Header="" Width="52">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button
+                                            Content="Wiki"
+                                            FontSize="10"
+                                            Padding="4,2"
+                                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                                            Command="{Binding DataContext.OpenWikiCommand,
+                                                      RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!-- ═══ MERGE SHOPS TAB ═════════════════════════════════════════ -->
+            <TabItem Header="  Merge Shops  ">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="260" />
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left: shop list -->
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBox
+                            Grid.Row="0"
+                            Margin="0,0,0,8"
+                            materialDesign:HintAssist.Hint="Search shops…"
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Text="{Binding MergeSearchQuery, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <ListBox
+                            Grid.Row="1"
+                            ItemsSource="{Binding FilteredShops}"
+                            SelectedItem="{Binding SelectedShop}"
+                            ScrollViewer.CanContentScroll="True"
+                            VirtualizingPanel.IsVirtualizing="True"
+                            VirtualizingPanel.VirtualizationMode="Recycling"
+                            Style="{StaticResource MaterialDesignListBox}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="2,3">
+                                        <TextBlock
+                                            Text="{Binding Name}"
+                                            FontWeight="Medium"
+                                            TextTrimming="CharacterEllipsis" />
+                                        <TextBlock
+                                            Text="{Binding Location}"
+                                            FontSize="10"
+                                            Foreground="{DynamicResource MaterialDesignBodyLight}"
+                                            TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+
+                    <GridSplitter
+                        Grid.Column="1"
+                        Width="5"
+                        HorizontalAlignment="Stretch" />
+
+                    <!-- Right: empty state -->
+                    <StackPanel
+                        Grid.Column="2"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Visibility="{Binding HasNoSelectedShop, Converter={StaticResource BoolVis}}">
+                        <TextBlock
+                            FontSize="16"
+                            Foreground="{DynamicResource MaterialDesignBodyLight}"
+                            Text="Select a merge shop from the list." />
+                    </StackPanel>
+
+                    <!-- Right: shop detail -->
+                    <Grid
+                        Grid.Column="2"
+                        Visibility="{Binding HasSelectedShop, Converter={StaticResource BoolVis}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Shop header -->
+                        <TextBlock
+                            Grid.Row="0"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource PrimaryHueMidBrush}"
+                            Margin="0,0,0,2"
+                            Text="{Binding SelectedShop.Name}" />
+
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,8">
+                            <TextBlock
+                                FontSize="11"
+                                Foreground="{DynamicResource MaterialDesignBodyLight}"
+                                Text="{Binding SelectedShop.Location}" />
+                            <TextBlock
+                                FontSize="11"
+                                Foreground="{DynamicResource MaterialDesignBodyLight}"
+                                Margin="14,0,0,0"
+                                Text="{Binding SelectedShop.Npc}" />
+                            <TextBlock
+                                FontSize="11"
+                                Foreground="{DynamicResource MaterialDesignBodyLight}"
+                                Margin="14,0,0,0"
+                                Text="{Binding SelectedShop.Tags}" />
+                        </StackPanel>
+
+                        <!-- Items DataGrid -->
+                        <DataGrid
+                            Grid.Row="2"
+                            ItemsSource="{Binding SelectedShop.DisplayItems}"
+                            AutoGenerateColumns="False"
+                            IsReadOnly="True"
+                            CanUserReorderColumns="False"
+                            GridLinesVisibility="Horizontal"
+                            HeadersVisibility="Column"
+                            materialDesign:DataGridAssist.CellPadding="8 6 8 6"
+                            Style="{StaticResource MaterialDesignDataGrid}">
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Item" Binding="{Binding Name}" Width="200" />
+                                <DataGridTextColumn Header="Type" Binding="{Binding TypeIcon}" Width="80" />
+
+                                <!-- Can Craft indicator -->
+                                <DataGridTemplateColumn Header="Craft" Width="60">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
+                                                Text="{Binding CanCraft, Converter={StaticResource BoolCheck}}"
+                                                Foreground="{Binding CraftColor}"
+                                                FontSize="16"
+                                                FontWeight="Bold"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Ingredients with owned counts -->
+                                <DataGridTextColumn
+                                    Header="Ingredients  (have / need)"
+                                    Binding="{Binding IngredientsText}"
+                                    Width="*" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <!-- ═══ IN BANK TAB ═════════════════════════════════════════════ -->
+            <TabItem Header="  In Bank  ">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Load bank row -->
+                    <StackPanel
+                        Grid.Row="0"
+                        Orientation="Horizontal"
+                        Margin="0,0,0,10">
+                        <Button
+                            Content="Load Bank"
+                            Command="{Binding LoadBankCommand}"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Margin="0,0,12,0"
+                            IsEnabled="{Binding IsLoading, Converter={StaticResource NotBool}}" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="11"
+                            Foreground="{DynamicResource MaterialDesignBodyLight}"
+                            Text="Must be in-game. Click to load your bank and see what's inside." />
+                    </StackPanel>
+
+                    <!-- Bank filter -->
+                    <TextBox
+                        Grid.Row="1"
+                        Margin="0,0,0,10"
+                        materialDesign:HintAssist.Hint="Filter bank items…"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        Text="{Binding BankSearchQuery, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <!-- Bank items DataGrid -->
+                    <DataGrid
+                        Grid.Row="2"
+                        ItemsSource="{Binding BankItems}"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"
+                        CanUserSortColumns="True"
+                        GridLinesVisibility="Horizontal"
+                        HeadersVisibility="Column"
+                        materialDesign:DataGridAssist.CellPadding="8 6 8 6"
+                        Style="{StaticResource MaterialDesignDataGrid}">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Item Name" Binding="{Binding Name}"     Width="*" />
+                            <DataGridTextColumn Header="Qty"       Binding="{Binding Quantity}" Width="70" />
+                            <DataGridTextColumn Header="Type"      Binding="{Binding ACLabel}"  Width="60" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+        <!-- ── Status bar ─────────────────────────────────────────────────── -->
+        <Border
+            Grid.Row="2"
+            Background="{DynamicResource MaterialDesignCardBackground}"
+            Padding="12,5">
+            <TextBlock
+                FontSize="11"
+                Foreground="{DynamicResource MaterialDesignBodyLight}"
+                Text="{Binding StatusText}"
+                TextTrimming="CharacterEllipsis" />
+        </Border>
+
+    </Grid>
+</Window>
