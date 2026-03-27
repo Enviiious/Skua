@@ -91,6 +91,7 @@ public static class Services
         services.AddTransient<IPluginContainer, PluginContainer>();
         services.AddSingleton<IPluginHelper, PluginHelper>();
 
+        services.AddSingleton<IWikiService, WikiService>();
         services.AddSingleton<IMapService, MapService>();
         services.AddSingleton<ILogService, LogService>();
         services.AddSingleton<IQuestDataLoaderService, QuestDataLoaderService>();
